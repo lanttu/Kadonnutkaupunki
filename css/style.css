@@ -1,0 +1,353 @@
+/*
+*/
+html { 
+height: 100% }
+body { 
+    height: 100%; margin: 0; padding: 0; 
+    font-size: 12px;
+}
+#map {
+    border: 0;
+    margin: 0;
+    width: 100%;
+    height:100%;
+}
+.highlight {
+    background-color: white;
+}
+#menu ul {
+    list-style-type: none;
+    margin: 4px;
+    padding: 0;
+    
+    text-align: center;
+    position: relative;
+}
+.menu li {
+    height: 32px;
+    width: 207px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+dl.form > dt {
+    margin: 5px;
+}
+
+dl.form > dd {
+    padding: 0 20px 10px 5px;
+    margin: 0;
+    display: block;
+}
+
+dl.form > dd  input{
+    width: 200px;
+    padding: 4px;
+}
+
+ul#categories {
+    list-style-type: none;
+    margin: 15px;
+    padding: 0;
+    width: 270px;
+}
+
+ul#categories > li {
+    margin: 0;
+    padding: 2px;
+}
+
+ul#categories > li > a {
+    float: right;
+}
+
+#new-category {
+    width: 230px;
+    /*float: left;*/
+}
+#add-category {
+    float: left;
+    font-size:0.8em;
+    margin-left: 3px;
+
+}
+.remove-category {
+    /*font-size: 3px;*/
+}
+
+input.error {
+    background-color: red;
+}
+
+#dialogs {
+    
+}
+
+#menu li.active {
+    /*background-color: gray;*/
+}
+
+
+#menu li:hover {
+    cursor: pointer;
+    /*background-color: white;*/
+}
+
+#menu li > ul {
+    display: none;
+    position: relative;
+    left: 207px;
+    top: 0px;
+/*            width: 150px;
+    border: 2px solid black;
+    list-style-type: none;
+    text-align: center;*/
+    padding: 0;
+    margin: 0;
+
+}
+
+#menu-header {
+    height: 104px;
+    background-image: url('../imgs/menu/title_default.png');
+}
+#menu-header:hover {
+    background-image: url('../imgs/menu/title_hover.png');
+}
+#menu-kk {
+    background-image: url('../imgs/menu/KK_root_def.png'); 
+}
+#menu-kk:hover {
+    background-image: url('../imgs/menu/KK_root_hover.png'); 
+}
+#menu-kk-yhtio{
+    background-image: url('../imgs/menu/KK_yhtio_def.png'); 
+}
+#menu-kk-yhtio:hover {
+    background-image: url('../imgs/menu/KK_yhtio_hover.png'); 
+}
+#menu-kk-yhtio.active {
+    background-image: url('../imgs/menu/KK_yhtio_lit.png'); 
+}
+#menu-kk-henkilot {
+    background-image: url('../imgs/menu/KK_henkilot_def.png'); 
+}
+#menu-kk-henkilot:hover {
+    background-image: url('../imgs/menu/KK_henkilot_hover.png'); 
+}
+#menu-kk-henkilot.active {
+    background-image: url('../imgs/menu/KK_henkilot_lit.png'); 
+}
+#menu-uutiset {
+    background-image: url('../imgs/menu/uutiset_def.png'); 
+}
+#menu-uutiset:hover {
+    background-image: url('../imgs/menu/uutiset_hover.png'); 
+}
+#menu-uutiset.active {
+    background-image: url('../imgs/menu/uutiset_lit.png'); 
+}
+#menu-uutiset-viral {
+    background-image: url('../imgs/menu/uutiset_viral_def.png'); 
+}
+#menu-uutiset-viral:hover {
+    background-image: url('../imgs/menu/uutiset_viral_hover.png'); 
+}
+#menu-uutiset-viral.active {
+    background-image: url('../imgs/menu/uutiset_viral_lit.png'); 
+}
+#menu-uutiset-juorut {
+    background-image: url('../imgs/menu/uutiset_juorut_def.png'); 
+}
+#menu-uutiset-juorut:hover {
+    background-image: url('../imgs/menu/uutiset_juorut_hover.png'); 
+}
+#menu-uutiset-juorut.active {
+    background-image: url('../imgs/menu/uutiset_juorut_lit.png'); 
+}
+#menu-tapahtumat {
+    background-image: url('../imgs/menu/tapahtumat_root_def.png'); 
+}
+#menu-tapahtumat:hover {
+    background-image: url('../imgs/menu/tapahtumat_root_hover.png'); 
+}
+#menu-tapahtumat-viralliset {
+    background-image: url('../imgs/menu/tapahtumat_viral_def.png'); 
+}
+#menu-tapahtumat-viralliset:hover {
+    background-image: url('../imgs/menu/tapahtumat_viral_hover.png'); 
+}
+#menu-tapahtumat-viralliset.active {
+    background-image: url('../imgs/menu/tapahtumat_viral_lit.png'); 
+}
+#menu-tapahtumat-muut {
+    background-image: url('../imgs/menu/tapahtumat_muut_def.png'); 
+}
+#menu-tapahtumat-muut:hover {
+    background-image: url('../imgs/menu/tapahtumat_muut_hover.png'); 
+}
+#menu-tapahtumat-muut.active {
+    background-image: url('../imgs/menu/tapahtumat_muut_lit.png'); 
+}
+#menu-tapahtumat-uudet {
+    background-image: url('../imgs/menu/tapahtumat_uudet_def.png'); 
+}
+#menu-tapahtumat-uudet:hover {
+    background-image: url('../imgs/menu/tapahtumat_uudet_hover.png'); 
+}
+#menu-tapahtumat-uudet.active {
+    background-image: url('../imgs/menu/tapahtumat_uudet_lit.png'); 
+}
+#menu-paikat {
+    background-image: url('../imgs/menu/nahtav_root_def.png'); 
+}
+#menu-paikat:hover {
+    background-image: url('../imgs/menu/nahtav_root_hover.png'); 
+}
+#menu-paikat-viralliset {
+    background-image: url('../imgs/menu/nahtav_viral_def.png'); 
+}
+#menu-paikat-viralliset:hover {
+    background-image: url('../imgs/menu/nahtav_viral_hover.png'); 
+}
+#menu-paikat-viralliset.active {
+    background-image: url('../imgs/menu/nahtav_viral_lit.png'); 
+}
+#menu-paikat-muut {
+    background-image: url('../imgs/menu/nahtav_muut_def.png'); 
+}
+#menu-paikat-muut:hover {
+    background-image: url('../imgs/menu/nahtav_muut_hover.png'); 
+}
+#menu-paikat-muut.active {
+    background-image: url('../imgs/menu/nahtav_muut_lit.png'); 
+}
+#menu-paikat-uudet {
+    background-image: url('../imgs/menu/nahtav_uudet_def.png'); 
+}
+#menu-paikat-uudet:hover {
+    background-image: url('../imgs/menu/nahtav_uudet_hover.png'); 
+}
+#menu-paikat-uudet.active {
+    background-image: url('../imgs/menu/nahtav_uudet_lit.png'); 
+}
+#menu-tehtavat {
+    background-image: url('../imgs/menu/tehtavat_root_def.png'); 
+}
+#menu-tehtavat:hover {
+    background-image: url('../imgs/menu/tehtavat_root_hover.png'); 
+}
+#menu-tehtavat.active {
+    background-image: url('../imgs/menu/tehtavat_root_lit.png'); 
+}
+#menu-ryhmat {
+    background-image: url('../imgs/menu/ryhmat_root_def.png'); 
+}
+#menu-ryhmat:hover {
+    background-image: url('../imgs/menu/ryhmat_root_hover.png'); 
+}
+#menu-ryhmat.active {
+    background-image: url('../imgs/menu/ryhmat_root_lit.png'); 
+}
+#menu-ihmisia {
+    background-image: url('../imgs/menu/ihmisia_root_def.png'); 
+}
+#menu-ihmisia:hover {
+    background-image: url('../imgs/menu/ihmisia_root_hover.png'); 
+}
+#menu-ihmisia-mina {
+    background-image: url('../imgs/menu/ihmisia_mina_def.png'); 
+}
+#menu-ihmisia-mina:hover {
+    background-image: url('../imgs/menu/ihmisia_mina_hover.png'); 
+}
+#menu-ihmisia-mina.active {
+    background-image: url('../imgs/menu/ihmisia_mina_lit.png'); 
+}
+#menu-ihmisia-muut {
+    background-image: url('../imgs/menu/ihmisia_muut_def.png'); 
+}
+#menu-ihmisia-muut:hover {
+    background-image: url('../imgs/menu/ihmisia_muut_hover.png'); 
+}
+#menu-ihmisia-muut.active {
+    background-image: url('../imgs/menu/ihmisia_muut_lit.png'); 
+}
+#menu-login {
+    background-image: url('../imgs/menu/login_root_def.png'); 
+}
+#menu-login:hover {
+    background-image: url('../imgs/menu/login_root_hover.png'); 
+}
+#menu-login.active {
+    background-image: url('../imgs/menu/login_root_lit.png'); 
+}
+#menu-profiili {
+    background-image: url('../imgs/menu/profiili_def.png');
+}
+#menu-profiili:hover {
+    background-image: url('../imgs/menu/profiili_hover.png');
+}
+#menu-omattiedot {
+    background-image: url('../imgs/menu/omat_tiedot_def.png');
+}
+#menu-omattiedot:hover {
+    background-image: url('../imgs/menu/omat_tiedot_hover.png');
+}
+#menu-logout {
+    background-image: url('../imgs/menu/logout_def.png');
+}
+#menu-logout:hover {
+    background-image: url('../imgs/menu/logout_hover.png');
+}
+#menu-logout.active {
+    background-image: url('../imgs/menu/logout_lit.png');
+}
+#menu-luouusi {
+    height: 48px;
+    width: 153px;
+    margin-left: 54px;
+    background-image: url('../imgs/menu/luokohde_def.png'); 
+}
+#menu-luouusi:hover {
+    background-image: url('../imgs/menu/luokohde_hover.png'); 
+}
+#menu-luouusi.active {
+    background-image: url('../imgs/menu/luokohde_lit.png'); 
+}
+#zoom-in {
+    width: 39px;
+    height: 36px;
+    cursor: pointer;
+    margin-top: 34px;
+    background-image: url('../imgs/menu/zoomin_def.png');
+}
+#zoom-in:hover {
+    background-image: url('../imgs/menu/zoomin_hover.png');
+}
+#zoom-out {
+    width: 39px;
+    height: 36px;
+    cursor: pointer;
+    background-image: url('../imgs/menu/zoomout_def.png');
+}
+#zoom-out:hover {
+    background-image: url('../imgs/menu/zoomout_hover.png');
+}
+
+#turku-2011 {
+    /*margin-top: 30px;*/
+    width: 99px;
+    height: 99px;
+    margin: 3px 3px;
+}
+
+#turku-2011 img {
+    width: 99px;
+    height: 99px;
+    border: 0;
+}
+
+#turku-2011 a {
+    border: 0;
+}
