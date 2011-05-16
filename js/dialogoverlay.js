@@ -60,9 +60,6 @@ Dialog.prototype.init = function() {
     });  
 }
 
-// Dialog.prototype.onAdd = function() {
-//     console.info('Dialog.onAdd');
-// }
 Dialog.prototype.draw  = function() {
     // console.info('Dialog.draw');
     var proj = this.getProjection();
@@ -76,14 +73,15 @@ Dialog.prototype.draw  = function() {
 }
 
 Dialog.prototype.isOpen = function() {
-    if(this.div_)
+    if ( this.div_ ) {
         return true;
-    else
+    } else {
         return false;
+    }
 }
 
 Dialog.prototype.clearDiv = function() {
-    if(this.div_) {
+    if ( this.div_ ) {
         this.div_.dialog('remove');
         this.div_.html('');
         this.div_.remove();
@@ -110,7 +108,7 @@ Dialog.prototype.showContent = function() {
         overflow: "hidden",
         position: [this.get('x'), this.get('y')],
         // dialogClass: this.get('class'),
-        title: '<a class="iframe-back" href="">' + this.get('name') + '</a>',
+        title: '<a class="iframe-back" href="">' + this.get('title') + '</a>',
         open: function() {
             // This should force iframe to load right content
             var iframe = div.find('iframe').get();
@@ -132,7 +130,6 @@ Dialog.prototype.showContent = function() {
         return false;
     });
 
-    // div.html('<iframe src="' + url + '" style="background-color:transparent;" allowtransparency="true" width="100%" height="550" marginwidth="0" marginheight="0" frameborder="0" />');
 }
 
 Dialog.prototype.showCreateNew = function() {
@@ -160,7 +157,6 @@ Dialog.prototype.showCreateNew = function() {
         $('#submit-page').button();
 
         $('#submit-page').click(function() {
-            // me.set('name', $('#page-name').val());
             me.set('type', $('input[name="type"]:checked').val());
 
             var type = me.get('type');

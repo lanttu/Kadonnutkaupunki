@@ -1,15 +1,30 @@
 function GwikiManager() {
     this.gwikimodels_ = {};
     this.categories_ = {};
-    // this.recentChanges_ = [];
 }
 
 
 GwikiManager.prototype.create = function(name, data) {
     var m = new Gwikimodel();
 
-    // Page name
-    m.set('name', name);
+    // Page name, identifier
+    m.set( 'name', name );
+
+    // If title is not set, use name
+    var title;
+    if ( data['title_' + lang] !== undefined 
+        && data['title_' + lang][0] !== undefined ) {
+
+        title = data['title_' + lang][0];
+
+    } else {
+        title = name;
+    }
+
+    m.set( 'title', title );
+
+    // var contentUrl;
+
 
     // Page type
     if(data.type && data.type[0])
@@ -46,20 +61,6 @@ GwikiManager.prototype.create = function(name, data) {
     }
     m.set( 'overlayImages', overlayImages);
 
-
-    // Contact
-    if(data.contact && data.contact[0])
-        m.set('contact', data.contact[0]);
-    
-    // Address
-    if(data.address && data.address[0])
-        m.set('address', data.address[0]);
-
-    // Date
-    if(data.date && data.date[0])
-        m.set('date', data.date[0]);
-
-
     // Categories
     var categories = [];
     if(data.gwikicategory) {
@@ -72,10 +73,8 @@ GwikiManager.prototype.create = function(name, data) {
     }
     m.set('categories', categories);
 
-    m.set('map', map);
-    m.set('editState', 5);
-
-    // this.add(m);
+    m.set( 'map', map );
+    m.set( 'editState', 5 );
 
     m.init(1);
     // console.info('Model created');
@@ -164,25 +163,28 @@ GwikiManager.prototype.load = function(names, callback) {
         return;
 
     var me = this;
-    $.get(wikiUrl, data, function(response, textStatus) {
-        for(var name in response) {
-            if(response[name].gwikidata && response[name].gwikidata[0] == 'yes') {
-                var m = me.create(name, response[name]);
-                if(callback)
+    $.get( wikiUrl, data, function( response, textStatus ) {
+        for ( var name in response ) {
+            if ( response[name].gwikidata 
+                && response[name].gwikidata[0] == 'yes') {
+                var m = me.create( name, response[name] );
+                if( $.isFunction(callback) ) {
                     callback.apply(m);
+                }
             }
         }
     });
 }
 
+
 /*
     Gwikidata calls this to inform manager about itself
 */
-GwikiManager.prototype.add = function(model) {
+GwikiManager.prototype.add = function( model ) {
     // console.info(model);
-    var name = model.get('name');
-    if(name) {
-        if(this.has(name)) {
+    var name = model.get( 'name' );
+    if( name ) {
+        if( this.has( name ) ) {
             var d = this.get(name);
             d.set('state', 0);
             delete d;
@@ -190,6 +192,7 @@ GwikiManager.prototype.add = function(model) {
         this.gwikimodels_[name] = model;
     }
 }
+
 
 GwikiManager.prototype.remove = function(model) {
     var name = model.get('name');
@@ -203,15 +206,17 @@ GwikiManager.prototype.remove = function(model) {
 
 
 GwikiManager.prototype.has = function(obj) {
-    if(typeof(obj) == 'object')
+    if ( typeof( obj ) == 'object' ) {
         var name = obj.get('name');
-    else
+    } else {
         var name = obj;
+    }
     
-    if(name in this.gwikimodels_)
+    if ( name in this.gwikimodels_ ) {
         return true;
-    else
+    } else {
         return false;
+    }
 }
 
 /*
@@ -219,10 +224,10 @@ GwikiManager.prototype.has = function(obj) {
     each object
 */
 GwikiManager.prototype.exec = function(names, func) {
-    if(typeof(names) == 'string') {
+    if ( typeof( names ) == 'string' ) {
         // Only one
-        if(this.has(names)) {
-            func.apply(this.get(names))
+        if( this.has(names) && $.isFunction(func) ) {
+            func.apply( this.get(names) );
         }
         else {
             this.load(names, func);
@@ -231,17 +236,22 @@ GwikiManager.prototype.exec = function(names, func) {
     else {
         var get = [];   // These are already requested
         var load = [];  // These are not yet present
+
         for(var i in names) {
-            if(this.has(names[i]))
+            if( this.has(names[i]) ) {
                 get.push(names[i]);
-            else
-                load.push(names[i]);
+            } else {
+                load.push( names[i] );
+            }
         }
-        if(load.length > 0) {
+
+        if ( load.length > 0 ) {
             this.load(load, func);
         }
-        for(var i in get) {
-            func.apply(this.get(get[i]));
+        if ( $.isFunction(func) ) {
+            for(var i in get) {
+                func.apply(this.get(get[i]));
+            }
         }
     }
 }
@@ -265,14 +275,6 @@ GwikiManager.prototype.get = function(name) {
 
 */
 GwikiManager.prototype.showCategory = function(categoryName, type) {
-    // Hide others
-    // this.each(function() {
-    //     if(!type || type == this.get('type')) {
-    //         this.hide();
-    //     }
-    // });
-    
-
     this.execCategory(categoryName, function() {
         this.execEach(function() {
             if(!type || type == this.get('type')) {
@@ -299,16 +301,20 @@ GwikiManager.prototype.hideCategory = function(categoryName, type) {
     Loads pages connected to given category/(ies)
 */
 GwikiManager.prototype.loadCategory = function(categoryName, callback) {
-    if(typeof(categoryName) == 'string') {
-        if(categoryName == 'All') {
+    if ( typeof(categoryName) == 'string' ) {
+        if ( categoryName == 'All' ) {
             var args = 'gwikidata=yes';
-        } else if (categoryName == 'Muut') {
+        } else if ( categoryName == 'Muut' ) {
             var args = 'gwikicategory!=CategoryViralliset,gwikidata=yes';
         } else {
-            var args = 'Category'+categoryName;
+            var args = 'Category' + categoryName;
         }
         var me = this;
-        $.get(wikiUrl, {'action':'getMetaJSON', 'args': args}, function(response, statusText) {
+        $.get( 
+            wikiUrl, 
+            {'action':'getMetaJSON', 'args': args}, 
+            function(response, statusText ) {
+                
             var names = [];
             for(var name in response) {
                 if(response[name].gwikidata && response[name].gwikidata[0] == 'yes') {

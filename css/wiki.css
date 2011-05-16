@@ -38,3 +38,8 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+
+table p {
+    padding: 0;
+    margin: 0 8px;
+}

@@ -20,7 +20,7 @@ function Marker() {
             };
 
             this.marker_ = new google.maps.Marker(markerOptions);
-            this.marker_.bindTo('title', this, 'name');
+            this.marker_.bindTo('title', this);
             this.marker_.bindTo('position', this);
             this.marker_.bindTo('state', this);
 

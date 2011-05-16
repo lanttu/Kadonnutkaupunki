@@ -1,1 +1,6 @@
 *.html~
+limesurvey/*
+phpESP/*
+test/*
+imgs/*
+htdocs/*

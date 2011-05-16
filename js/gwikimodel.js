@@ -1,9 +1,9 @@
 /* 
     States:
     1: Hidden
-    2: Marker shown
+    2: Marker and images shown
     3: Marker hover
-    4: Clicked
+    4: Clicked - Dialog open
 
 
     editState
@@ -23,12 +23,16 @@ function Gwikimodel() {
     this.dialog_ = null;
     this.overlayHandler_ = null;
 
-    google.maps.event.addListener(this, 'name_changed', function() {
-        gwikiManager.add(this);
-        this.set('contentUrl', wikiUrl+this.get('name')+'/text');
-        this.set('contentEditUrl', wikiUrl+this.get('name')+'/text?action=edit');
+    //
+    // google.maps.event.addListener(this, 'name_changed', function() {
+    //     gwikiManager.add(this);
+    //     this.set( 'contentUrl', wikiUrl + this.get('name') + '/text' );
+    //     this.set(
+    //         'contentEditUrl', 
+    //         wikiUrl + this.get('name') + '/text?action=edit'
+    //     );
 
-    });
+    // });
 
     google.maps.event.addListener(this, 'icon_changed', function() {
         var icon = this.get('icon');
@@ -98,11 +102,16 @@ Gwikimodel.prototype = new google.maps.MVCObject();
 
 
 Gwikimodel.prototype.init = function(state) {
-    if(state == undefined)
+    if ( state == undefined ) {
         state = 1;
+    }
 
     google.maps.event.addListener(this, 'state_changed', function(e) {
         // console.info(this.get('name') + ' -> ' + 'Gwikimodel.state_changed:' +this.get('state'));
+        var state = this.get('state');
+        if ( this.dialog_ == null && state > 3 ) {
+            this.createContentDialog();
+        }
     });
 
     google.maps.event.addListener(this, 'editstate_changed', function(e) {
@@ -127,7 +136,7 @@ Gwikimodel.prototype.init = function(state) {
 
     this.createMarker();
     this.createOverlays();
-    this.createDialog();
+    // this.createDialog();
     this.set('state', state);
 
 
@@ -135,32 +144,21 @@ Gwikimodel.prototype.init = function(state) {
 
 Gwikimodel.prototype.createMarker = function() {
     // TODO: Create marker only for specific types
-               
     this.marker_ = new Marker(this.get('position'));
     this.marker_.bindTo('map', this);
     this.marker_.bindTo('state', this);
     this.marker_.bindTo('editState', this);
-    this.marker_.bindTo('name', this);
+    this.marker_.bindTo('title', this);
     this.marker_.bindTo('iconUrl', this);
     this.marker_.bindTo('hoverIconUrl', this);
     this.marker_.bindTo('position', this);
 
     var me = this;
 
-    // Not needed anymore because states (this, this.marker_) are bind together
-    // google.maps.event.addListener(this.marker_, 'mouseover', function(e) {
-    //     google.maps.event.trigger(me, 'mouseover', e)
-    // });
-    // google.maps.event.addListener(this.marker_, 'mouseout', function(e) {
-    //     google.maps.event.trigger(me, 'mouseout', e)
-    // });
-    // google.maps.event.addListener(this.marker_, 'click', function(e) {
-    //     google.maps.event.trigger(me, 'click', e)
-    // });
 }
 
 Gwikimodel.prototype.removeMarker = function() {
-    if(this.marker_) {
+    if ( this.marker_ ) {
         this.marker_.remove();
         this.marker_ = null;
     }
@@ -185,24 +183,31 @@ Gwikimodel.prototype.removeOverlays = function() {
     }
 }
 
+Gwikimodel.prototype.createContentDialog = function() {
+    this.dialog_ = new ContentDialog(
+        this.get('title'), 
+        this.get('name'),
+        this.get('class')
+    );
+    this.dialog_.bindTo('state', this);
+    this.dialog_.bindTo('position', this);
+}
+
 Gwikimodel.prototype.createDialog = function() {
     // console.info('createDialog');
 
-    this.dialog_ = new Dialog();
+    this.dialog_ = new ContentDialog();
+    this.dialog_.bindTo('title', this);
     this.dialog_.bindTo('name', this);
     this.dialog_.bindTo('position', this);
     this.dialog_.bindTo('type', this);
     this.dialog_.bindTo('class', this);
-    this.dialog_.bindTo('contentUrl', this);
+    // this.dialog_.bindTo('contentUrl', this);
     this.dialog_.bindTo('contentEditUrl', this);
     this.dialog_.bindTo('editState', this);
     this.dialog_.bindTo('state', this);
 
     this.dialog_.bindTo('bounds', this);
-
-    this.dialog_.bindTo('address', this);
-    this.dialog_.bindTo('contact', this);
-    this.dialog_.bindTo('date', this);
 
     this.dialog_.bindTo('icon', this);
     this.dialog_.bindTo('iconUrl', this);
@@ -213,40 +218,6 @@ Gwikimodel.prototype.createDialog = function() {
     
 }
 
-// Gwikimodel.prototype.openContentDialog = function() {
-//     // console.info('o: '+this.get('position'));
-//     this.removeDialog();
-
-//     var dialog = new ContentDialogOverlay();
-//     // this.dialog_.bindTo('state', this);
-//     // this.dialog_.bindTo('map', this);
-//     dialog.bindTo('position', this);
-//     dialog.bindTo('name', this);
-//     dialog.bindTo('type', this);
-//     dialog.bindTo('contentUrl', this);
-
-//     dialog.init();
-
-//     this.set('dialog', dialog);
-
-//     dialog.setMap(this.get('map'));
-// }
-
-// Gwikimodel.prototype.openNewDialog = function() {
-//     console.info('Gwikimode.openNewDialog');
-//     this.removeDialog();
-
-//     this.dialog_ = new EditDialogOverlay();
-//     this.dialog_.bindTo('position', this);
-//     this.dialog_.bindTo('name', this);
-//     this.dialog_.bindTo('type', this);
-//     this.dialog_.bindTo('editState', this);
-//     // this.dialog_.bindTo('state', this);
-
-//     this.dialog_.init();
-
-//     this.dialog_.setMap(this.get('map'));
-// }
 
 Gwikimodel.prototype.removeDialog = function() {
     if(this.dialog_) {
@@ -258,95 +229,12 @@ Gwikimodel.prototype.removeDialog = function() {
 }
 
 
-// Gwikimodel.prototype.getOverlayImageUrlPrefix = function() {
-//     return wikiUrl + 'CloudImages?action=AttachFile&do=get&target=';
-// }
-// Gwikimodel.prototype.getOverlayImageUrl = function() {
-//     return this.getOverlayImageUrlPrefix() + this.getOverlayImage();
-// }
-// Gwikimodel.prototype.fetchAvailableOverlayImages = function(callbackOnEach) {
-//     $.get(wikiUrl+'CloudImages', {'action':'listattachments'}, function(data) {
-//         if(callbackOnEach && data.names) {
-//             for(var i in data.names){
-//                 callbackOnEach(data.names[i]);
-//             }
-//         }
-//     });
-// }
-
-
-
-
-
-// Gwikimodel.prototype.save = function(callbackOnSuccess, callbackOnFail) {
-//     if(this.mapObject_) {
-//         // Get new coords and bounds
-//         this.setLatLng(this.mapObject_.getLatLng());
-//         this.setBounds(this.mapObject_.getBounds());
-//         this.mapObject_.setEditMode(false);
-//     }
-//     else {
-//         this.setLatLng(null);
-//         this.setBoudns(null);
-//     }
-
-//     this.data_.Gwikimodel = ['yes'];
-    
-//     var data = {
-//         'action': 'setMetaJSON',
-//         'args': '{"'+this.getName()+'":'+JSON.stringify(this.data_)+'}'
-//     };
-    
-//     $.post(wikiUrl, data, function(data) {
-//         if(data.status) {
-//             if(callbackOnSuccess != undefined)
-//                 callbackOnSuccess(data);
-//         }
-//         else {
-//             // Storing values failed
-//             if(callbackOnFail != undefined)
-//                 callbackOnFail(data);
-
-//         }
-//     }, 'json');
-// }
-
-
-// Gwikimodel.prototype.addCategory = function(name) {
-//     name = parseCategory(name);
-//     if(name) {
-//         if(this.data_.gwikicategory == undefined)
-//             this.data_.gwikicategory = [];
-//         this.data_.gwikicategory.push('Category'+name);
-//         return name;
-//     }
-// }
-// Gwikimodel.prototype.removeCategory = function(name) {
-//     name = parseCategory(name);
-//     if(this.data_.gwikicategory) {
-//         var d = [];
-//         for(var i in this.data_.gwikicategory) {
-//             if(this.data_.gwikicategory[i] != name)
-//                 this.data_.push(this.data_.gwikicategory[i]);
-//         }
-//         this.data_.gwikicategory = d;
-//     }
-// }
-
-
 Gwikimodel.prototype.show = function() {
     this.set('state', 2);
 }
 Gwikimodel.prototype.hide = function() {
     this.set('state', 1);
 }
-
-
-// Gwikimodel.prototype.setHighlight = function(mode) {
-//     if(this.mapObject_)
-//         this.mapObject_.setHighlight(mode);
-//     menuManager.setHighlight(mode, this.getName());
-// }
 
 
 

@@ -18,20 +18,24 @@ var username = '';
 var wikiUrl = '/wiki/';
 var mapStylePrefix = '/mapstyles/';
 
+var lang = 'fi';
+// var defaultLang = 'fi';
+
 $(document).ready(function() {
     var args = getUrlArgs();
      
-    if(args['page'])
+    if ( args['page'] ) {
         var pageName = args['page'];
-    else
+    } else {
         var pageName = 'FrontPage';
+    }
     
     gwikiManager = new GwikiManager();
 
     var mapModel = new MapModel(pageName, function() {
         // this = mapModel
 
-        map = new google.maps.Map(document.getElementById("map"), {
+        map = new google.maps.Map( document.getElementById("map"), {
             center: this.get('position'),
             disableDefaultUI: true,
             zoom: minZoom,
@@ -59,16 +63,8 @@ $(document).ready(function() {
         limitZoom(minZoom, maxZoom);
 
         gwikiManager.loadRecentChangesCategory();
-        // gwikiManager.execCategory('Viralliset', function() {
-        //     // this.execEach(function() {
-        //     //     this.show();
-        //     // });
-        // });
-        setTimeout("gwikiManager.showCategory('Viralliset');", 1000);
-        // window.setTimeout(function() {
-        //     gwikiManager.showCategory('Viralliset'); 
-        // }, 10)
 
+        setTimeout("gwikiManager.showCategory('Viralliset');", 1000);
 
         whoAmI();
 

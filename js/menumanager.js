@@ -214,14 +214,14 @@ MenuManager.prototype.clearCreateNew = function() {
 }
 
 MenuManager.prototype.createNew = function(button, attr) {
-    if($(button).hasClass('active')) {
+    if ( $( button ).hasClass( 'active' ) ) {
         return;
     }
 
-    $(button).addClass('active');
+    $( button ).addClass( 'active' );
     g = new Gwikimodel();
-    g.init(2);
-    g.set('editState', 1);
+    g.init( 2 );
+    g.set( 'editState', 1 );
 
 }
 
