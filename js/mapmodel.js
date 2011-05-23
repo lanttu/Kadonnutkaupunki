@@ -34,13 +34,20 @@ function MapModel(page, func) {
             else
                 me.set('colorOverlayOpacity', '0.0');
 
-            if(data.loadcategory)
+            if ( data.loadcategory )
                 me.set('loadCategories', data.loadcategory);
             else
                 me.set('loadCategories', []);
 
-            if(func)
+            if ( data.loadpage ) {
+                for ( var i in data.loadpage ) {
+                    gwikiManager.show( data.loadpage[i] );
+                }
+            }
+
+            if ( func ) {
                 func.apply(me);
+            }
         }
     });
 }

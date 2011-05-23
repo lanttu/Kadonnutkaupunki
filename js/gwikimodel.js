@@ -4,16 +4,6 @@
     2: Marker and images shown
     3: Marker hover
     4: Clicked - Dialog open
-
-
-    editState
-    0: Creating cancelled, delete model
-    1: New, without name and type, only position set
-    2: New with name/type set
-    --- Only new model can be in above states and should never be save ---
-    3: Metadata edited
-    4: Server synced -- No content
-    5: Server synced -- Server has same values
 */
 
  
@@ -28,42 +18,41 @@ function Gwikimodel() {
     this.dialog_ = null;
     this.overlayHandler_ = null;
 
-    //
-    // google.maps.event.addListener(this, 'name_changed', function() {
-    //     gwikiManager.add(this);
-    //     this.set( 'contentUrl', wikiUrl + this.get('name') + '/text' );
-    //     this.set(
-    //         'contentEditUrl', 
-    //         wikiUrl + this.get('name') + '/text?action=edit'
-    //     );
-
-    // });
-
-    google.maps.event.addListener(this, 'icon_changed', function() {
-        var icon = this.get('icon');
-        if(icon) {
-            this.set('iconUrl', '/imgs/symbols/'+this.get('type')+'/'+icon);
-            this.set('hoverIconUrl', '/imgs/symbols/'+this.get('type')+'/'+icon.replace('_def.', '_hover.'));
-        }
-        else {
-            this.set('iconUrl', null);
-            this.set('hoverIconUrl', null);
+    google.maps.event.addListener( this, "icon_changed", function() {
+        var icon = this.get( "icon" );
+        if ( icon && icon != "undefined" ) {
+            this.set(
+                "iconUrl", 
+                "/imgs/symbols/" + this.get("type") + "/" + icon
+            );
+            this.set(
+                "hoverIconUrl", 
+                "/imgs/symbols/" + this.get("type") + "/" 
+                    + icon.replace("_def.", "_hover.")
+            );
+        } else {
+            this.set( "iconUrl", null );
+            this.set( "hoverIconUrl", null );
         }
     });
 
-    google.maps.event.addListener(this, 'overlayimage_changed', function() {
-        this.set('overlayImageUrl', wikiUrl + 'CloudImages?action=AttachFile&do=get&target='+this.get('overlayImage'));
+    google.maps.event.addListener( this, "overlayimage_changed", function() {
+        this.set(
+            "overlayImageUrl", 
+            wikiUrl + "CloudImages?action=AttachFile&do=get&target="
+                + this.get("overlayImage")
+        );
     });
 
-    google.maps.event.addListener(this, 'overlayimages_changed', function() {
+    google.maps.event.addListener( this, "overlayimages_changed", function() {
         var urls = new google.maps.MVCArray();
-        var images = this.get( 'overlayImages' );
-        images.forEach(function(img, i) {
+        var images = this.get( "overlayImages" );
+        images.forEach( function(img, i) {
             urls.push(
-                wikiUrl + 'CloudImages?action=AttachFile&do=get&target=' + img
+                wikiUrl + "CloudImages?action=AttachFile&do=get&target=" + img
             );
         });
-        this.set( 'overlayImageUrls', urls );
+        this.set( "overlayImageUrls", urls );
     });
 
     google.maps.event.addListener(this, 'type_changed', function() {
@@ -81,39 +70,37 @@ function Gwikimodel() {
             case 'Ryhmä':
                 cls = 'ryhma';
             break;
+            case 'Sijainti':
+                cls = 'sijainti';
+            break;
         }
         this.set('class', cls);
-        // console.info(this.get('class'));
     });
 
-    this.set('iconUrl', 'imgs/node_placer.png');
-    this.set('hoverIconUrl', 'imgs/node_placer.png');
+    // this.set('iconUrl', 'imgs/node_placer.png');
+    // this.set('hoverIconUrl', 'imgs/node_placer.png');
+    this.set( "iconUrl", null );
+    this.set( "hoverIconUrl", null );
 
-    this.set('type', 'Tapahtuma');
-    this.set('state', 1);
-    this.set('position', null);
-    this.set('bounds', new google.maps.MVCArray());
-    this.set('categories', new google.maps.MVCArray());
-    this.set('contact', '');
-    this.set('address', '');
-    this.set('date', '');
-    this.set('map', map);
-    this.set('editState', 1);
-
-    // this.init();
-    // console.info('GwikiModel init finished');
+    this.set( "type", "Tapahtuma" );
+    this.set( "state", 1 );
+    this.set( "position", null );
+    this.set( "bounds", null );
+    this.set( "categories", new google.maps.MVCArray() );
+    this.set( "map", map );
+    this.set( "editState", 1 );
+    this.set( "paths", null );
 }
 
 Gwikimodel.prototype = new google.maps.MVCObject();
 
 
-Gwikimodel.prototype.init = function(state) {
+Gwikimodel.prototype.init = function( state ) {
     if ( state == undefined ) {
         state = 1;
     }
 
-    google.maps.event.addListener(this, 'state_changed', function(e) {
-        // console.info(this.get('name') + ' -> ' + 'Gwikimodel.state_changed:' +this.get('state'));
+    google.maps.event.addListener(this, "state_changed", function(e) {
         var state = this.get('state');
         if ( this.dialog_ == null && state > 3 ) {
             this.createContentDialog();
@@ -123,35 +110,32 @@ Gwikimodel.prototype.init = function(state) {
             this.createMarker();
         }
 
-        if ( this.overlayHandler_ == null && state > 1 ) {
+        if ( this.get( "bounds") !== null ) {
+            i
+        }
+
+        if ( this.overlayHandler_ == null && this.get("bounds") != null ) {
             this.createOverlays();
         }
 
+        if ( this.get( "paths" ) !== null ) {
+            if ( state > 1 ) {
+                if ( !this.polylines_ ) {
+                    this.createPolylines();
+                } else {
+                    this.polyines_.forEach(function( line, i ) {
+                        line.setMap( map )
+                    });
+                }
+            } else if ( this.polyline_ ) {
+                //hide
+                this.polyines_.forEach(function( line, i ) {
+                    line.setMap( null )
+                });
+            }
+        }
+
     });
-
-    // google.maps.event.addListener(this, 'editstate_changed', function(e) {
-    //     var editState = this.get('editState');
-    //     // console.info('Gwikimodel.editState_changed: '+editState);
-    //     switch(editState) {
-    //         case 0:
-    //             this.removeMarker();
-    //             this.removeOverlays();
-    //             gwikiManager.remove(this);
-    //             menuManager.clearCreateNew();
-    //         break;
-    //         case 3:
-    //             gwikiManager.save(this);
-    //             // this.set('editState', 4);
-    //             menuManager.clearCreateNew();
-    //         break;
-    //     }
-    // });
-
-
-
-    // this.createMarker();
-    // this.createOverlays();
-    // this.createDialog();
     this.set('state', state);
 
 
@@ -160,16 +144,11 @@ Gwikimodel.prototype.init = function(state) {
 Gwikimodel.prototype.createMarker = function() {
     // TODO: Create marker only for specific types
     this.marker_ = new Marker(this.get('position'));
-    this.marker_.bindTo('map', this);
     this.marker_.bindTo('state', this);
-    this.marker_.bindTo('editState', this);
     this.marker_.bindTo('title', this);
     this.marker_.bindTo('iconUrl', this);
     this.marker_.bindTo('hoverIconUrl', this);
     this.marker_.bindTo('position', this);
-
-    var me = this;
-
 }
 
 Gwikimodel.prototype.removeMarker = function() {
@@ -177,6 +156,19 @@ Gwikimodel.prototype.removeMarker = function() {
         this.marker_.remove();
         this.marker_ = null;
     }
+}
+
+Gwikimodel.prototype.createPolylines = function() {
+    var polylines = new google.maps.MVCArray();
+    this.get( "paths" ).forEach(function( path, i ) {
+        var polyline = new google.maps.Polyline({
+            map: map,
+            path: path,
+            strokeColor: "#000"
+        });
+        polylines.push(polyline);
+    });
+    this.polylines_ = polylines;
 }
 
 Gwikimodel.prototype.createOverlays = function() {
@@ -187,7 +179,6 @@ Gwikimodel.prototype.createOverlays = function() {
     this.overlayHandler_.bindTo('bounds', this);
     this.overlayHandler_.bindTo('overlayImageUrl', this);
     this.overlayHandler_.bindTo('overlayImageUrls', this);
-    // console.info(this.get('overlayImageUrls'));
     this.overlayHandler_.init();
 }
 

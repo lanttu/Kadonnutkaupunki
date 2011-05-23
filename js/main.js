@@ -1,12 +1,10 @@
 var map;
 
-var minZoom = 14;
+var minZoom = 10;
 var maxZoom = 16;
 
-// var style;
 var objectManager;
 var menuManager;
-// var editManager;
 var imageOverlayMap;
 var colorOverlayMap;
 
@@ -29,51 +27,31 @@ $(document).ready(function() {
     if ( args['page'] ) {
         var pageName = args['page'];
     } else {
-        var pageName = 'FrontPage';
+        var pageName = 'Ruka';
     }
     
     gwikiManager = new GwikiManager();
 
     var mapModel = new MapModel(pageName, function() {
-        // this = mapModel
 
         map = new google.maps.Map( document.getElementById("map"), {
             center: this.get('position'),
-            disableDefaultUI: true,
+            streetViewControl: false,
+            mapTypeControlOptions: {
+                mapTypeIds: [ "styled", google.maps.MapTypeId.SATELLITE]
+            },
             zoom: minZoom,
             disableDoubleClickZoom: true,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         
-        // Tiled map overlay
-        imageOverlayMap = new ImageOverlayMap(this.get('tiledOverlay'), this.get('tiledOverlayOpacity'));
-        map.overlayMapTypes.push(imageOverlayMap);
-        
-        // Color overlay
-        colorOverlayMap = new ColorOverlayMap(this.get('colorOverlay'), this.get('colorOverlayOpacity'));
-        map.overlayMapTypes.push(colorOverlayMap);
-         
-        // Load styled map
-        // var mapStyleName = this.get('style');
-        // setMapStyle(mapStyleName);
         setMapStyle();
-        
-        
+                
         menuManager = new MenuManager();
-        menuManager.openPage($('#menu-header'), "Etusivu");
 
         limitZoom(minZoom, maxZoom);
 
-        gwikiManager.loadRecentChangesCategory();
-
-        setTimeout("gwikiManager.showCategory('Viralliset');", 1000);
-
         whoAmI();
 
-        // This should force iframe to load right content
-        $('iframe').each(function() {
-            this.src = this.src;
-        });
     });
 });
 
@@ -85,7 +63,6 @@ function limitZoom(min, max) {
         else if(map.getZoom() > max) {
             map.setZoom(max);
         }
-        // console.info('Zoom: ' + map.getZoom());
     });
 }
 
@@ -132,7 +109,7 @@ function setMapStyle(mapStyle) {
     if(mapStyle) {
         $.getScript(mapStylePrefix + mapStyle + '.js', function(data, textStatus) {
             if(style) {
-                var styledMap = new google.maps.StyledMapType(style, {name: 'styledMap'});
+                var styledMap = new google.maps.StyledMapType(style, {name: "Kartta"});
                 map.mapTypes.set('styled', styledMap);
                 map.setMapTypeId('styled');
             }
@@ -143,7 +120,7 @@ function setMapStyle(mapStyle) {
         });
     }
     else {
-        var styledMap = new google.maps.StyledMapType(style, {name: 'styledMap'});
+        var styledMap = new google.maps.StyledMapType(style, {name: "Kartta"});
         map.mapTypes.set('styled', styledMap);
         map.setMapTypeId('styled');
     }
@@ -168,6 +145,14 @@ function parseCategory(name) {
     var f = name.slice(0,1).toUpperCase();
     name = f.concat(name.slice(1));
     return name;
+}
+
+function wToLatLng(v1,v2) {
+    if ( v2 === undefined ) {
+        return new google.maps.LatLng(v1[1], v1[0]);
+    } else {
+        return new google.maps.LatLng(v2,v1);
+    }
 }
 
 

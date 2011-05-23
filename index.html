@@ -17,26 +17,21 @@
     <script src="js/jquery-1.4.3.min.js" type="text/javascript"></script>
     <script src="js/language.js" type="text/javascript"></script>
     <script src="js/jquery.debounce-1.0.5.js" type="text/javascript"></script>
-    <!--<script src="js/jquery.qtip-1.0.0-rc3.min.js" type="text/javascript"></script>-->
     <script src="js/jquery-ui-1.8.8.custom.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script src="js/imageoverlaymap.js" type="text/javascript"></script>
     <script src="js/coloroverlaymap.js" type="text/javascript"></script>
     <script src="js/class.js" type="text/javascript"></script>
-    <!--<script src="js/editor.js" type="text/javascript"></script>-->
-    <!--<script src="js/qtipoverlay.js" type="text/javascript"></script>-->
     <script src="js/gwikimanager.js" type="text/javascript"></script>
     <script src="js/mapmodel.js" type="text/javascript"></script>
     <script src="js/marker.js" type="text/javascript"></script>
     <script src="js/gwikimodel.js" type="text/javascript"></script>
-    <!--<script src="js/contentoverlay.js" type="text/javascript"></script>-->
     <script src="js/overlayhandler.js" type="text/javascript"></script>
     <script src="js/imageoverlay.js" type="text/javascript"></script>
     <script src="js/menumanager.js" type="text/javascript"></script>
     <script src="js/dialogoverlay.js" type="text/javascript"></script>
     <script src="js/contentdialog.js" type="text/javascript"></script>
     <script src="js/modelcreator.js" type="text/javascript"></script>
-    <!--<script src="mapstyles.js" type="text/javascript"></script>-->
     <script type="text/javascript" src="tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
     <script src="js/main.js" type="text/javascript"></script>
     <script src="mapstyles/default.js" type="text/javascript"></script>
@@ -47,60 +42,10 @@
 
     <div id="menu" class="menu">
         <ul id="mainmenu">
-            <li id="menu-header" data-clickaction="openPage" data-attr="Etusivu" data-dialogclass="kk" data-width="800"></li>
-            <li id="menu-kk">
-                <ul>
-                    <li id="menu-kk-yhtio" data-clickaction="openPage" data-attr="Yhtiö" data-dialogclass="kk"></li>
-                    <li id="menu-kk-henkilot" data-clickaction="openPage" data-attr="Henkilöt" data-dialogclass="kk"></li>
-                </ul>
-            </li>
-            <li id="menu-uutiset">
-                <ul>
-                    <li id="menu-uutiset-viral" data-clickaction="openPage" data-attr="Uutiset" data-dialogclass="uutinen"></li>
-                    <li id="menu-uutiset-juorut" data-clickaction="openPage" data-attr="Juorut" data-dialogclass="uutinen"></li>
-                </ul>
-            </li>
-            <li id="menu-tapahtumat">
-                <ul>
-                    <li id="menu-tapahtumat-viralliset" class="active" data-clickaction="toggle" data-attr="Viralliset|Tapahtuma"></li>
-                    <li id="menu-tapahtumat-muut" data-clickaction="toggle" data-attr="Muut|Tapahtuma"></li>
-                    <!--<li id="menu-tapahtumat-uudet" data-clickaction="toggle" data-attr="RecentChanges|Tapahtuma"></li>-->
-                </ul>
-            </li>
-            <li id="menu-paikat">
-                <ul>
-                    <li id="menu-paikat-viralliset" class="active" data-clickaction="toggle" data-attr="Viralliset|Paikka"></li>
-                    <li id="menu-paikat-muut" data-clickaction="toggle" data-attr="Muut|Paikka"></li>
-                    <!--<li id="menu-paikat-uudet" data-clickaction="toggle" data-attr="RecentChanges|Paikka"></li>-->
-                </ul>
-            </li>
-            <li id="menu-tehtavat" data-clickaction="openPage" data-attr="Tehtävät" data-dialogclass="tehtava"></li>
-            <li id="menu-ryhmat" data-clickaction="openPage" data-attr="Ryhmät" data-dialogclass="ryhma"></li>
-            <li id="menu-ihmisia">
-                <ul>
-                    <li id="menu-ihmisia-mina" data-clickaction="user"></li>
-                    <li id="menu-ihmisia-muut" data-clickaction="openPage" data-attr="Käyttäjät"></li>
-                </ul>
-            </li>
-            <li id="menu-login" data-clickaction="login"></li>
-            <li id="menu-logout" data-clickaction="logout"></li>
-            <li id="menu-luouusi" data-clickaction="createNew" data-attr="marker"></li>
-            <li id="zoom-in"></li>
-            <li id="zoom-out"></li>
-            <!--
-            <li id="turku-2011">
-                <a href="http://www.turku2011.fi/kadonnut-kaupunki-esittaa-elamyspuisto-turku-2011">
-                    <img src="/imgs/turku2011_ohjelmalogo.png"/>
-                </a>
-            </li>
-            -->
+            <li id="menu-login" data-clickaction="login">Kirjaudu sisään</li>
+            <li id="menu-logout" data-clickaction="logout">Kirjaudu ulos</li>
+            <li id="menu-luouusi" data-clickaction="createNew" data-attr="marker">Luo uusi</li>
         </ul>
-    </div>
-
-    <div id="turku-2011">
-        <a href="http://www.turku2011.fi/kadonnut-kaupunki-esittaa-elamyspuisto-turku-2011">
-            <img src="/imgs/turku2011_ohjelmalogo.png"/>
-        </a>
     </div>
 
   </body> 

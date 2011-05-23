@@ -32,11 +32,11 @@ ModelCreator.prototype.selectType = function() {
             width: 400,
             title: 'Valitse luotavan kohteen tyyppi',
             close: function() {
-                // console.info(selectedType);
                 if ( selectedType === null ) {
                     me.cancel();
                 } else {
-                    if(selectedType == 'Tapahtuma' 
+                    if(selectedType == 'Tapahtuma'
+                        || selectedType == 'Sijainti'
                         || selectedType == 'Paikka') {
 
                         me.pickPosition();
@@ -88,7 +88,7 @@ ModelCreator.prototype.pickPosition = function() {
         google.maps.event.addListenerOnce( map, 'click', function(e) {
             
             pickedPosition = e.latLng;
-            me.model_.set('position', pickedPosition);
+            me.model_.set( "position", pickedPosition );
             me.closeDialog();
 
         });
@@ -229,7 +229,6 @@ ModelCreator.prototype.setMetadata = function() {
                 me.model_.set( 'name', $( '#page-name', div ).val() );
             }
 
-            me.model_.set( 'date', $( '#date', div ).val() );
 
             var categories = new google.maps.MVCArray();
             $( '#categories > li > span', div ).each( function() {
@@ -283,11 +282,11 @@ ModelCreator.prototype.editContent = function() {
     var me = this;
     var div = this.div_;
 
-    div.load( 'pageparts/contentedit.html', function() {
+    div.load( "pageparts/contentedit.html", function() {
 
         var textarea = $( "#content", div ).tinymce({
-            script_url : 'tinymce/jscripts/tiny_mce/tiny_mce.js',
-            theme: 'simple'
+            script_url : "tinymce/jscripts/tiny_mce/tiny_mce.js",
+            theme: "advanced"
         });
         var urlPrefix = wikiUrl + me.model_.get( "name" ) + "/";
         $( "#language" ).change(function() {

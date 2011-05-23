@@ -37,13 +37,14 @@ GwikiManager.prototype.create = function(name, data) {
         m.set('position',coordsToLatLng(data.gwikicoordinates[0]));
     
     // Bounds
-    var bounds = new google.maps.MVCArray();
+    var bounds = null;
     if(data.gwikibounds) {
-        for(var i in data.gwikibounds) {
-            bounds.push(gwikiboundsToLatLngBounds(data.gwikibounds[i]));
+        bounds = new google.maps.MVCArray();
+        for ( var i in data.gwikibounds ) {
+            bounds.push( gwikiboundsToLatLngBounds(data.gwikibounds[i]) );
         }
     }
-    m.set('bounds', bounds);
+    m.set( "bounds", bounds );
 
     // Icon
     if(data.gwikishapefile && data.gwikishapefile[0])
@@ -60,6 +61,25 @@ GwikiManager.prototype.create = function(name, data) {
         }
     }
     m.set( 'overlayImages', overlayImages);
+
+    var paths = null;
+    if ( data.gwikipath ) {
+        paths = new google.maps.MVCArray();
+        for ( var i in data.gwikipath ) {
+            try {
+                eval( "var values = [" + data.gwikipath[i] + "]" );
+                var path = new google.maps.MVCArray();
+                for ( var j in values ) {
+                    path.push(wToLatLng(values[j]));
+                }
+                paths.push( path );
+
+            } catch ( err ) {
+                console.info( err );
+            }
+        }
+    }
+    m.set( "paths", paths );
 
     // Categories
     var categories = [];
@@ -129,16 +149,6 @@ GwikiManager.prototype.save = function(model, callback) {
             if ( $.isFunction(callback) ) {
                 callback.call( model );
             }
-            // model.set('editState', 4);
-            // $.ajax({
-            //     url:model.get('contentUrl'),
-            //     success: function(data,status) {
-            //         model.set('editState', 5);
-            //     },
-            //     error: function(request,status) {
-            //         model.set('edidState', 4);
-            //     }
-            // });
         }
     }, 'json');
 
@@ -272,6 +282,11 @@ GwikiManager.prototype.get = function(name) {
         return null;
 }
 
+GwikiManager.prototype.show = function( name ) {
+    this.exec( name, function() {
+        this.show();
+    });
+}
 
 /*
     Shows category and hides everything else  

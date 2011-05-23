@@ -76,8 +76,7 @@ MenuManager.prototype.clearActive = function(button) {
 MenuManager.prototype.setCrosshairMode = function(mode) {
     if ( mode ) {
         var cursor = 'crosshair';
-    }
-    else {
+    } else {
         var cursror = 'hand';
     }
     map.setOptions({'draggableCursor':cursor});
