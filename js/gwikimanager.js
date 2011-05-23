@@ -81,7 +81,7 @@ GwikiManager.prototype.create = function(name, data) {
     return m;
 }
 
-GwikiManager.prototype.save = function(model) {
+GwikiManager.prototype.save = function(model, callback) {
     var name = model.get('name');
     if(!name)
         throw 'No name';
@@ -126,7 +126,10 @@ GwikiManager.prototype.save = function(model) {
 
     $.post(wikiUrl, params, function(response) {
         if(response.status) {
-            model.set('editState', 4);
+            if ( $.isFunction(callback) ) {
+                callback.call( model );
+            }
+            // model.set('editState', 4);
             // $.ajax({
             //     url:model.get('contentUrl'),
             //     success: function(data,status) {

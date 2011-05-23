@@ -103,7 +103,7 @@ ContentDialog.prototype.showContent = function() {
         return;
     }
     this.clearDiv();
-    console.info(this.contentUrl_);
+    // console.info(this.contentUrl_);
 
     var div = $('<div><iframe src="' 
         + this.contentUrl_ + '" style="background-color:transparent;" \

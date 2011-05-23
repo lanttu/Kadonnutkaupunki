@@ -19,7 +19,9 @@ var wikiUrl = '/wiki/';
 var mapStylePrefix = '/mapstyles/';
 
 var lang = 'fi';
-// var defaultLang = 'fi';
+var defaultLang = 'fi';
+
+var modelCreator = null;
 
 $(document).ready(function() {
     var args = getUrlArgs();

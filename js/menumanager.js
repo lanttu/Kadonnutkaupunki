@@ -217,11 +217,18 @@ MenuManager.prototype.createNew = function(button, attr) {
     if ( $( button ).hasClass( 'active' ) ) {
         return;
     }
-
     $( button ).addClass( 'active' );
-    g = new Gwikimodel();
-    g.init( 2 );
-    g.set( 'editState', 1 );
+
+    var newModel = new Gwikimodel();
+    newModel.init();
+    if ( !modelCreator ) {
+        modelCreator = new ModelCreator();
+    }
+    modelCreator.createNew( newModel );
+    // modelCreator.setModel( newModel );
+
+    // g.init( 2 );
+    // g.set( 'editState', 1 );
 
 }
 

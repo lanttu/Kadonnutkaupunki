@@ -19,6 +19,11 @@
  
 
 function Gwikimodel() {
+    // console.info('Gwikimodel created');
+    if ( !(this instanceof arguments.callee) ) {
+       throw new Error("Constructor called as a function");
+    }
+
     this.marker_ = null;
     this.dialog_ = null;
     this.overlayHandler_ = null;
@@ -96,6 +101,7 @@ function Gwikimodel() {
     this.set('editState', 1);
 
     // this.init();
+    // console.info('GwikiModel init finished');
 }
 
 Gwikimodel.prototype = new google.maps.MVCObject();
@@ -112,30 +118,39 @@ Gwikimodel.prototype.init = function(state) {
         if ( this.dialog_ == null && state > 3 ) {
             this.createContentDialog();
         }
-    });
 
-    google.maps.event.addListener(this, 'editstate_changed', function(e) {
-        var editState = this.get('editState');
-        // console.info('Gwikimodel.editState_changed: '+editState);
-        switch(editState) {
-            case 0:
-                this.removeMarker();
-                this.removeOverlays();
-                gwikiManager.remove(this);
-                menuManager.clearCreateNew();
-            break;
-            case 3:
-                gwikiManager.save(this);
-                // this.set('editState', 4);
-                menuManager.clearCreateNew();
-            break;
+        if ( this.marker_ == null && state > 1 ) {
+            this.createMarker();
         }
+
+        if ( this.overlayHandler_ == null && state > 1 ) {
+            this.createOverlays();
+        }
+
     });
 
+    // google.maps.event.addListener(this, 'editstate_changed', function(e) {
+    //     var editState = this.get('editState');
+    //     // console.info('Gwikimodel.editState_changed: '+editState);
+    //     switch(editState) {
+    //         case 0:
+    //             this.removeMarker();
+    //             this.removeOverlays();
+    //             gwikiManager.remove(this);
+    //             menuManager.clearCreateNew();
+    //         break;
+    //         case 3:
+    //             gwikiManager.save(this);
+    //             // this.set('editState', 4);
+    //             menuManager.clearCreateNew();
+    //         break;
+    //     }
+    // });
 
 
-    this.createMarker();
-    this.createOverlays();
+
+    // this.createMarker();
+    // this.createOverlays();
     // this.createDialog();
     this.set('state', state);
 
