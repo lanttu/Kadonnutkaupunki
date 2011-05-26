@@ -23,22 +23,40 @@ ModelCreator.prototype.selectType = function() {
 
     var div = this.div_;
     var me = this;
-    var selectedType = null;
+    var selectedCategory = null;
 
-    div.load( 'pageparts/select_type.html', function() {
+    div.load( 'pageparts/select_category.html', function() {
+        var typeset = $( "#typeset" );
+        // Create categories
+        for ( var value in categories ) {
+            $( "<input>" ).attr( "type", "radio" ).val( value )
+                .attr( "id", value+"-radio" )
+                .attr( "name", "category" ).appendTo( typeset );
+            $( "<label>" ).attr( "for", value+"-radio" ).text( value )
+                .appendTo( typeset );
+        }
+        
+        // Styling
+        $( '#typeset', div ).buttonset();
+        $( '#submit-page', div ).button();
+
+        $( '#submit-page', div ).click( function() {
+            // console.info(me);
+            selectedCategory = $( 'input[name="category"]:checked', div ).val();
+            me.model_.set( "category", selectedCategory );
+            me.closeDialog();
+        });
 
         div.dialog({
             height: 200,
             width: 400,
-            title: 'Valitse luotavan kohteen tyyppi',
+            title: 'Valitse luotavan kohteen kategoria',
             close: function() {
-                if ( selectedType === null ) {
+                if ( selectedCategory === null ) {
                     me.cancel();
                 } else {
-                    if(selectedType == 'Tapahtuma'
-                        || selectedType == 'Sijainti'
-                        || selectedType == 'Paikka') {
-
+                    console.info(selectedCategory);
+                    if ( categories[selectedCategory].position ) {
                         me.pickPosition();
                     }
                     else {
@@ -47,17 +65,6 @@ ModelCreator.prototype.selectType = function() {
                     
                 }
             }
-        });
-        
-        // Styling
-        $( '#typeset', div ).buttonset();
-        $( '#submit-page', div ).button();
-
-        $( '#submit-page', div ).click( function() {
-            // console.info(me);
-            selectedType = $( 'input[name="type"]:checked', div ).val();
-            me.model_.set( 'type', selectedType );
-            me.closeDialog();
         });
     });
 }

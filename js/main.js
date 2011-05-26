@@ -1,3 +1,38 @@
+var categories = {
+    "Taukopaikka": {
+        // position: true,
+        color: "#fff",
+    },
+    "Erityinen kohde": {
+        position: true,
+        color: "#f0f",
+    },
+    "Reitin varren kohde": {
+        position: true,
+        color: "#f5f",
+    },
+    "Kaukomaisema": {
+        position: true,
+        color: "#333",
+    },
+    "Lähimaisema": {
+        position: true,
+        color: "#111",
+    },
+    "Vesistö": {
+        position: true,
+        color: "#999",
+    },
+    "Luontokohde": {
+        position: true,
+        color: "#000"
+    },
+    "Tarina": {
+        position: true,
+        color: "#EEE"
+    }
+};
+
 var map;
 
 var minZoom = 10;

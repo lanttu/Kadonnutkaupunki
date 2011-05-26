@@ -112,10 +112,12 @@ GwikiManager.prototype.save = function(model, callback) {
     if(model.get('position'))
         data.gwikicoordinates = [latLngToCoords(model.get('position'))];
 
-    data.gwikibounds = [];
-    model.get('bounds').forEach(function(b, i) {
-        data.gwikibounds.push(latLngBoundsToGwikibounds(b));
-    });
+    if ( model.get( "bounds") != null ) {
+        data.gwikibounds = [];
+        model.get( "bounds" ).forEach(function(b, i) {
+            data.gwikibounds.push(latLngBoundsToGwikibounds(b));
+        });
+    }
 
     if(model.get('icon'))
         data.gwikishapefile = [model.get('icon')];
