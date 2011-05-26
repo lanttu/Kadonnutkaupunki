@@ -25,25 +25,26 @@ ModelCreator.prototype.selectType = function() {
     var me = this;
     var selectedCategory = null;
 
-    div.load( 'pageparts/select_category.html', function() {
+    div.load( 'pageparts/select_type.html', function() {
         var typeset = $( "#typeset" );
         // Create categories
-        for ( var value in categories ) {
+        for ( var value in types ) {
             $( "<input>" ).attr( "type", "radio" ).val( value )
                 .attr( "id", value+"-radio" )
-                .attr( "name", "category" ).appendTo( typeset );
+                .attr( "name", "type" ).appendTo( typeset );
             $( "<label>" ).attr( "for", value+"-radio" ).text( value )
                 .appendTo( typeset );
+            $( "<br>" ).appendTo( typeset );
         }
         
         // Styling
-        $( '#typeset', div ).buttonset();
+        // $( '#typeset', div ).buttonset();
         $( '#submit-page', div ).button();
 
         $( '#submit-page', div ).click( function() {
             // console.info(me);
-            selectedCategory = $( 'input[name="category"]:checked', div ).val();
-            me.model_.set( "category", selectedCategory );
+            selectedCategory = $( 'input[name="type"]:checked', div ).val();
+            me.model_.set( "type", selectedCategory );
             me.closeDialog();
         });
 
@@ -56,7 +57,7 @@ ModelCreator.prototype.selectType = function() {
                     me.cancel();
                 } else {
                     console.info(selectedCategory);
-                    if ( categories[selectedCategory].position ) {
+                    if ( types[selectedCategory].position ) {
                         me.pickPosition();
                     }
                     else {
@@ -275,11 +276,12 @@ ModelCreator.prototype.setMetadata = function() {
 
 ModelCreator.prototype.save = function( editContent ) {
     var me = this;
-    if ( editContent ) {
-        gwikiManager.save( this.model_, function() {
+    gwikiManager.save( this.model_, function() {
+        gwikiManager.add( me.model_ );
+        if ( editContent ) {
             me.editContent();
-        });
-    }
+        }
+    });
 }
 
 ModelCreator.prototype.editContent = function() {
@@ -313,6 +315,8 @@ ModelCreator.prototype.editContent = function() {
             });
         });
 
+        $( "#language" ).hide();
+
         $( "#save", div ).click(function() {
             var content = $( "#content", div ).val();
             
@@ -326,6 +330,8 @@ ModelCreator.prototype.editContent = function() {
                     format: 'wiki'
                 },
                 function (data) {
+                    me.closeDialog();
+                    menuManager.clearCreateNew();
                     // console.info(data);
                 }
             );

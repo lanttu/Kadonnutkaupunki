@@ -18,10 +18,30 @@ function MenuManager() {
         $(this).children('ul').hide();
     });
 
-    this.mainmenuActions_ = $(this.mainmenu_).find('[data-clickaction]');
+    // Type buttons
+    var typesElement = $( "#types" );
+    for ( var type in types ) {
+        if ( type == "default" ) {
+            continue;
+        }
+        $( "<li>" ).attr( "data-clickaction", "toggletype" )
+            .attr( "data-attr", type )
+            .appendTo( typesElement )
+            .text( types[type].plural );
+    }
+
+    // Path type buttons
+    var pathTypesElement = $( "#path-types" );
+    for ( var pathType in pathTypes ) {
+        $( "<li>" ).attr( "data-clickaction", "toggletype" )
+            .attr( "data-attr", pathType )
+            .appendTo( pathTypesElement )
+            .text( pathTypes[pathType].plural );
+    }    
+
+    this.mainmenuActions_ = $(this.menuDiv_).find('[data-clickaction]');
 
     var me = this;
-    
     
     this.mainmenuActions_.click(function(e) {
         var actionType = $(this).attr('data-clickaction');
@@ -31,19 +51,20 @@ function MenuManager() {
             eval('me.'+actionType+'(this, actionAttr)');
         }
         catch(e) {
-            // console.info('Click: '+e);
+            logMessage( "Invalid menu action: " + e );
         }
         return false;
     });
+
  
-    $('#zoom-in').click(function() {
-        var zoomLevel = map.getZoom();
-        map.setZoom(zoomLevel+1);
-    });
-    $('#zoom-out').click(function() {
-        var zoomLevel = map.getZoom();
-        map.setZoom(zoomLevel-1);
-    });
+    // $('#zoom-in').click(function() {
+    //     var zoomLevel = map.getZoom();
+    //     map.setZoom(zoomLevel+1);
+    // });
+    // $('#zoom-out').click(function() {
+    //     var zoomLevel = map.getZoom();
+    //     map.setZoom(zoomLevel-1);
+    // });
     
     
 }
@@ -183,8 +204,19 @@ MenuManager.prototype.logout = function(button, attr) {
     });
 }
 
+MenuManager.prototype.toggletype = function(button, attr) {
+    if ( $(button).hasClass('active') ) {
+        gwikiManager.hideType( attr );
+    }
+    else {
+        gwikiManager.showType( attr );
+    }
+    $(button).toggleClass('active');
+}
+
 MenuManager.prototype.toggle = function(button, attr) {
     var s = attr.split('|');
+    console.info(attr);
     if($(button).hasClass('active')) {
         // $(button).removeClass('active');
         gwikiManager.hideCategory(s[0], s[1]);

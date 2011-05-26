@@ -1,38 +1,3 @@
-var categories = {
-    "Taukopaikka": {
-        // position: true,
-        color: "#fff",
-    },
-    "Erityinen kohde": {
-        position: true,
-        color: "#f0f",
-    },
-    "Reitin varren kohde": {
-        position: true,
-        color: "#f5f",
-    },
-    "Kaukomaisema": {
-        position: true,
-        color: "#333",
-    },
-    "Lähimaisema": {
-        position: true,
-        color: "#111",
-    },
-    "Vesistö": {
-        position: true,
-        color: "#999",
-    },
-    "Luontokohde": {
-        position: true,
-        color: "#000"
-    },
-    "Tarina": {
-        position: true,
-        color: "#EEE"
-    }
-};
-
 var map;
 
 var minZoom = 10;
@@ -80,6 +45,8 @@ $(document).ready(function() {
         });
         
         setMapStyle();
+
+        // gwikiManager.showCategory( "All" );
                 
         menuManager = new MenuManager();
 
@@ -182,11 +149,11 @@ function parseCategory(name) {
     return name;
 }
 
-function wToLatLng(v1,v2) {
+function pathPointToLatLng(v1,v2) {
     if ( v2 === undefined ) {
-        return new google.maps.LatLng(v1[1], v1[0]);
+        return new google.maps.LatLng(v1[0], v1[1]);
     } else {
-        return new google.maps.LatLng(v2,v1);
+        return new google.maps.LatLng(v1,v2);
     }
 }
 
@@ -281,4 +248,24 @@ function showLogin() {
         });
     });
 
+}
+
+function logMessage( message ) {
+    if ( typeof console == "object" ) {
+        console.log( message );
+    }
+}
+
+
+function getTypeConfig( typeName ) {
+    var typeConfig;
+    if ( types[typeName] !== undefined ) {
+        typeConfig = types[typeName];
+    } else if ( pathTypes[typeName] !== undefined ) {
+        typeConfig = pathTypes[typeName];
+    } else {
+        // logMessage( "Unknown type: " + type );
+        typeConfig = types["default"];
+    }
+    return typeConfig;
 }

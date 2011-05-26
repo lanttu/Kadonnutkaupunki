@@ -63,14 +63,15 @@ GwikiManager.prototype.create = function(name, data) {
     m.set( 'overlayImages', overlayImages);
 
     var paths = null;
-    if ( data.gwikipath ) {
+    if ( data.gwikipath && data.gwikipath.length > 0 ) {
         paths = new google.maps.MVCArray();
         for ( var i in data.gwikipath ) {
             try {
                 eval( "var values = [" + data.gwikipath[i] + "]" );
                 var path = new google.maps.MVCArray();
                 for ( var j in values ) {
-                    path.push(wToLatLng(values[j]));
+                    // path.push(wToLatLng(values[j]));
+                    path.push(pathPointToLatLng(values[j]));
                 }
                 paths.push( path );
 
@@ -78,6 +79,9 @@ GwikiManager.prototype.create = function(name, data) {
                 console.info( err );
             }
         }
+        // if ( data.pathtype && data.pathtype.length > 0 ) {
+        //     m.set( "pathType", data.pathtype );
+        // }
     }
     m.set( "paths", paths );
 
@@ -97,6 +101,9 @@ GwikiManager.prototype.create = function(name, data) {
     m.set( 'editState', 5 );
 
     m.init(1);
+
+    this.add( m );
+
     // console.info('Model created');
     return m;
 }
@@ -288,6 +295,32 @@ GwikiManager.prototype.show = function( name ) {
     this.exec( name, function() {
         this.show();
     });
+}
+
+GwikiManager.prototype.hideType = function( type ) {
+    this.each(function() {
+        if ( this.get( "type") == type ) {
+            this.hide();
+        }
+    });
+}
+
+GwikiManager.prototype.showType = function( type ) {
+    var typeConfig = getTypeConfig( type );
+    if ( typeConfig.loaded ) {
+        // Already loaded from server
+        this.each(function() {
+            if ( this.get( "type") == type ) {
+                this.show();
+            }
+        });
+    } else {
+        // Load from server and show
+        typeConfig.loaded = true;
+        this.load( "type=" + type, function() {
+            this.show();
+        });
+    }
 }
 
 /*

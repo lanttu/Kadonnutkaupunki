@@ -17,6 +17,7 @@ function Gwikimodel() {
     this.marker_ = null;
     this.dialog_ = null;
     this.overlayHandler_ = null;
+    this.paths_ = null;
 
     google.maps.event.addListener( this, "icon_changed", function() {
         var icon = this.get( "icon" );
@@ -56,25 +57,10 @@ function Gwikimodel() {
     });
 
     google.maps.event.addListener(this, 'type_changed', function() {
-        var cls = '';
-        switch(this.get('type')) {
-            case 'Tapahtuma':
-                cls = 'tapahtuma';
-            break;
-            case 'Paikka':
-                cls = 'paikka';
-            break;
-            case 'Tehtävä':
-                cls = 'tehtava';
-            break;
-            case 'Ryhmä':
-                cls = 'ryhma';
-            break;
-            case 'Sijainti':
-                cls = 'sijainti';
-            break;
-        }
-        this.set('class', cls);
+        var type = this.get( "type" );
+        var typeConfig = getTypeConfig( type );
+
+        this.set( "typeConfig", typeConfig );
     });
 
     // this.set('iconUrl', 'imgs/node_placer.png');
@@ -110,29 +96,16 @@ Gwikimodel.prototype.init = function( state ) {
             this.createMarker();
         }
 
-        if ( this.get( "bounds") !== null ) {
-            i
-        }
 
-        if ( this.overlayHandler_ == null && this.get("bounds") != null ) {
+        if ( this.overlayHandler_ == null 
+            && this.get("bounds") != null
+            && state > 1 ) {
+
             this.createOverlays();
         }
 
-        if ( this.get( "paths" ) !== null ) {
-            if ( state > 1 ) {
-                if ( !this.polylines_ ) {
-                    this.createPolylines();
-                } else {
-                    this.polyines_.forEach(function( line, i ) {
-                        line.setMap( map )
-                    });
-                }
-            } else if ( this.polyline_ ) {
-                //hide
-                this.polyines_.forEach(function( line, i ) {
-                    line.setMap( null )
-                });
-            }
+        if ( this.paths_ == null && this.get( "paths") != null && state > 1 ) {
+            this.createPaths();
         }
 
     });
@@ -143,12 +116,12 @@ Gwikimodel.prototype.init = function( state ) {
 
 Gwikimodel.prototype.createMarker = function() {
     // TODO: Create marker only for specific types
-    this.marker_ = new Marker(this.get('position'));
-    this.marker_.bindTo('state', this);
-    this.marker_.bindTo('title', this);
-    this.marker_.bindTo('iconUrl', this);
-    this.marker_.bindTo('hoverIconUrl', this);
-    this.marker_.bindTo('position', this);
+    this.marker_ = new Marker(this.get("position"));
+    this.marker_.bindTo("state", this);
+    this.marker_.bindTo("title", this);
+    this.marker_.bindTo("iconUrl", this);
+    this.marker_.bindTo("hoverIconUrl", this);
+    this.marker_.bindTo("position", this);
 }
 
 Gwikimodel.prototype.removeMarker = function() {
@@ -158,17 +131,11 @@ Gwikimodel.prototype.removeMarker = function() {
     }
 }
 
-Gwikimodel.prototype.createPolylines = function() {
-    var polylines = new google.maps.MVCArray();
-    this.get( "paths" ).forEach(function( path, i ) {
-        var polyline = new google.maps.Polyline({
-            map: map,
-            path: path,
-            strokeColor: "#000"
-        });
-        polylines.push(polyline);
-    });
-    this.polylines_ = polylines;
+Gwikimodel.prototype.createPaths = function() {
+    this.paths_ = new Paths();
+    this.paths_.bindTo( "typeConfig", this );
+    this.paths_.bindTo( "paths", this );
+    this.paths_.bindTo( "state", this );
 }
 
 Gwikimodel.prototype.createOverlays = function() {
