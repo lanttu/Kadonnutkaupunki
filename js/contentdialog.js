@@ -12,7 +12,7 @@ function ContentDialog(title, name, cls) {
     var self = this;
     // Define content url
     $.ajax({
-        url: wikiUrl + name + '/' + lang,
+        url: encodeURI( wikiUrl + name + '/' + lang ),
         success: function() {
             self.setContentUrl( wikiUrl + name + '/' + lang );
         },
@@ -59,7 +59,8 @@ ContentDialog.prototype = new google.maps.OverlayView();
 
 ContentDialog.prototype.setContentUrl = function( url ) {
     if ( url ) {
-        this.contentUrl_ = url;
+        this.contentUrl_ = encodeURI( url );
+        // this.contentUrl_ = url;
     } else {
         this.contentUrl_ = '';
     }
@@ -103,7 +104,6 @@ ContentDialog.prototype.showContent = function() {
         return;
     }
     this.clearDiv();
-    // console.info(this.contentUrl_);
 
     var div = $('<div><iframe src="' 
         + this.contentUrl_ + '" style="background-color:transparent;" \
@@ -112,6 +112,7 @@ ContentDialog.prototype.showContent = function() {
         marginwidth="0" marginheight="0" frameborder="0" /></div>')
         .appendTo('body');
     this.div_ = div;
+    console.info(this.contentUrl_);
 
     var me = this;
     

@@ -319,10 +319,10 @@ ModelCreator.prototype.editContent = function() {
 
         $( "#save", div ).click(function() {
             var content = $( "#content", div ).val();
-            
+            var url = wikiUrl + me.model_.get( "name" ) + "/" + $("#language").val();
             // console.info( content );
             $.post(
-                wikiUrl + me.model_.get( "name" ) + "/" + $("#language").val(),
+                encodeURI( url ),
                 {
                     action: 'edit',
                     savetext: content,
