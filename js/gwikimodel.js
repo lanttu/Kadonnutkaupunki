@@ -116,12 +116,13 @@ Gwikimodel.prototype.init = function( state ) {
 
 Gwikimodel.prototype.createMarker = function() {
     // TODO: Create marker only for specific types
-    this.marker_ = new Marker(this.get("position"));
-    this.marker_.bindTo("state", this);
-    this.marker_.bindTo("title", this);
-    this.marker_.bindTo("iconUrl", this);
-    this.marker_.bindTo("hoverIconUrl", this);
-    this.marker_.bindTo("position", this);
+    this.marker_ = new Marker();
+    this.marker_.bindTo( "typeConfig", this );
+    this.marker_.bindTo( "state", this );
+    this.marker_.bindTo( "title", this );
+    this.marker_.bindTo( "iconUrl", this );
+    this.marker_.bindTo( "hoverIconUrl", this );
+    this.marker_.bindTo( "position", this );
 }
 
 Gwikimodel.prototype.removeMarker = function() {

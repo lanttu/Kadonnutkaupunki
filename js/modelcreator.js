@@ -37,26 +37,26 @@ ModelCreator.prototype.selectType = function() {
             $( "<br>" ).appendTo( typeset );
         }
         
-        // Styling
-        // $( '#typeset', div ).buttonset();
         $( '#submit-page', div ).button();
 
         $( '#submit-page', div ).click( function() {
             // console.info(me);
             selectedCategory = $( 'input[name="type"]:checked', div ).val();
-            me.model_.set( "type", selectedCategory );
-            me.closeDialog();
+            if ( selectedCategory ) {
+                me.model_.set( "type", selectedCategory );
+                me.closeDialog();
+            }
         });
 
         div.dialog({
-            height: 200,
+            height: 300,
             width: 400,
             title: 'Valitse luotavan kohteen kategoria',
             close: function() {
                 if ( selectedCategory === null ) {
                     me.cancel();
                 } else {
-                    console.info(selectedCategory);
+                    // console.info(selectedCategory);
                     if ( types[selectedCategory].position ) {
                         me.pickPosition();
                     }
@@ -159,74 +159,74 @@ ModelCreator.prototype.setMetadata = function() {
             }, 300));
         }
 
-        if ( type != 'Tapahtuma' && type != 'Paikka' ) {
-            // Hide icon fields
-            $( '.icon', this ).hide();
-            iconRequired = false;
-        } else {
-            iconRequired = true;
-            var iconsDiv = $( '#icons', this );
-            var selectedImg = $( '#icon', this );
+        // if ( type != 'Tapahtuma' && type != 'Paikka' ) {
+        //     // Hide icon fields
+        //     $( '.icon', this ).hide();
+        //     iconRequired = false;
+        // } else {
+        //     iconRequired = true;
+        //     var iconsDiv = $( '#icons', this );
+        //     var selectedImg = $( '#icon', this );
 
-            $.ajax({
-                url: listIconsUrl,
-                dataType: 'xml',
-                success: function(data) {
-                    $(data).find( 'symbol' ).each(function() {
-                        var icon = $(this).text();
-                        $( '<img src="' + iconUrlPrefix + icon 
-                            + '" value="' + icon + '"/>').click(function() {
+        //     $.ajax({
+        //         url: listIconsUrl,
+        //         dataType: 'xml',
+        //         success: function(data) {
+        //             $(data).find( 'symbol' ).each(function() {
+        //                 var icon = $(this).text();
+        //                 $( '<img src="' + iconUrlPrefix + icon 
+        //                     + '" value="' + icon + '"/>').click(function() {
 
-                            var src = $( this ).attr( 'src' );
-                            var icon = $(this).attr( 'value' );
-                            selectedImg.attr( 'src', src );
-                            selectedImg.attr( 'value', icon );
-                            me.model_.set( 'icon', $('#icon').attr('value') );
-                        }).appendTo(iconsDiv);                    
-                    });
-                }
-            });
-        }
+        //                     var src = $( this ).attr( 'src' );
+        //                     var icon = $(this).attr( 'value' );
+        //                     selectedImg.attr( 'src', src );
+        //                     selectedImg.attr( 'value', icon );
+        //                     me.model_.set( 'icon', $('#icon').attr('value') );
+        //                 }).appendTo(iconsDiv);                    
+        //             });
+        //         }
+        //     });
+        // }
 
-        me.model_.get( 'categories' ).forEach( function(b,i) {
-            $( '#categories', this )
-                .append('<li><span>' + b + '</span> '
-                    + '<a class="remove-category" href="">Poista</a></li>');
-        });
+        // me.model_.get( 'categories' ).forEach( function(b,i) {
+        //     $( '#categories', this )
+        //         .append('<li><span>' + b + '</span> '
+        //             + '<a class="remove-category" href="">Poista</a></li>');
+        // });
 
         $( '#submit-edit', this ).button();
-        $( '#add-category', this ).button();
+        // $( '#add-category', this ).button();
 
         // Add category
-        $( '#add-category', this ).click(function() {
-            var val = $('#new-category').val();
-            var categoryName = parseCategory(val);
-            if(categoryName) {
-                $('<li><span>'+ categoryName + '</span> <a class="remove-category" href="">Poista</a></li>').appendTo( '#categories' ).children('a').each(function() {
-                    $(this).click(function() {
-                        $(this).parent().remove();
-                        return false;
-                    });
-                });
-                $('#new-category').val('');
-            }
-        });
+        // $( '#add-category', this ).click(function() {
+        //     var val = $('#new-category').val();
+        //     var categoryName = parseCategory(val);
+        //     if(categoryName) {
+        //         $('<li><span>'+ categoryName + '</span> <a class="remove-category" href="">Poista</a></li>').appendTo( '#categories' ).children('a').each(function() {
+        //             $(this).click(function() {
+        //                 $(this).parent().remove();
+        //                 return false;
+        //             });
+        //         });
+        //         $('#new-category').val('');
+        //     }
+        // });
         // Remove category
-        $( '#categories > li > a', this ).each(function() {
-            $( this ).click(function() {
-                $( this ).parent().remove();
-                return false;
-            });
-        });
+        // $( '#categories > li > a', this ).each(function() {
+        //     $( this ).click(function() {
+        //         $( this ).parent().remove();
+        //         return false;
+        //     });
+        // });
 
         $( '#submit-edit', this ).click(function() {
 
-            if( iconRequired 
-                && $( '#icon', div ).attr( 'value' ) == 'undefined' ) {
+            // if( iconRequired 
+            //     && $( '#icon', div ).attr( 'value' ) == 'undefined' ) {
 
-                $( '#icon-error', div ).text( 'Kuvaketta ei valittu' );
-                return false;
-            }
+            //     $( '#icon-error', div ).text( 'Kuvaketta ei valittu' );
+            //     return false;
+            // }
 
             if ( me.newModel_ ) {
                 if($( '#page-name', div ).val() == '' ) {
@@ -238,12 +238,12 @@ ModelCreator.prototype.setMetadata = function() {
             }
 
 
-            var categories = new google.maps.MVCArray();
-            $( '#categories > li > span', div ).each( function() {
-                categories.push( $(this).text() );
-            });
-            me.model_.set( 'categories', categories );
-            me.model_.set( 'icon', $('#icon').attr('value') );
+            // var categories = new google.maps.MVCArray();
+            // $( '#categories > li > span', div ).each( function() {
+            //     categories.push( $(this).text() );
+            // });
+            // me.model_.set( 'categories', categories );
+            // me.model_.set( 'icon', $('#icon').attr('value') );
 
             finished = true;
 

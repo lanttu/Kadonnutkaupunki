@@ -23,12 +23,6 @@ body {
     text-align: center;
     position: relative;
 }
-.menu li {
-    height: 32px;
-    width: 207px;
-    background-position: 0 0;
-    background-repeat: no-repeat;
-}
 
 dl.form > dt {
     margin: 5px;
@@ -86,11 +80,13 @@ input.error {
 #menu li {
     background-color: white;
     display: block;
-    width: 200px;
+    width: 150px;
     border: 2px solid black;
     border-radius: 5px;
-    line-height: 32px;
+    line-height: 28px;
     font-weight: bold;
+    margin-bottom: 2px;
+    height: 28px;
 }
 
 #menu li.active {

@@ -19,6 +19,12 @@ function Marker() {
 
     var me = this;
 
+    google.maps.event.addListener( this, "typeconfig_changed", function(e) {
+        var typeConfig = this.get( "typeConfig" );
+        this.markerImage_ = typeConfig.icon;
+        this.markerImageHover_ = typeConfig.icon;
+    });
+
     google.maps.event.addListener( this.marker_, "mouseover", function(e) {
         var state = me.get( "state" );
         if ( state < 3 ) {
@@ -61,16 +67,16 @@ function Marker() {
         }
     });
 
-    google.maps.event.addListener( this, "iconurl_changed", function() {
-        this.createIcon();
-        if ( this.marker_ ) {
-            this.marker_.setIcon( this.markerImage_ );
-        }
-    });
+    // google.maps.event.addListener( this, "iconurl_changed", function() {
+    //     this.createIcon();
+    //     if ( this.marker_ ) {
+    //         this.marker_.setIcon( this.markerImage_ );
+    //     }
+    // });
 
-    google.maps.event.addListener( this, "hovericonurl_changed", function() {
-        this.createHoverIcon();
-    });
+    // google.maps.event.addListener( this, "hovericonurl_changed", function() {
+    //     this.createHoverIcon();
+    // });
 
 }
 
