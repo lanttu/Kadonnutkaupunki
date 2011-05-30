@@ -120,7 +120,7 @@ ModelCreator.prototype.setMetadata = function() {
     var div = this.div_;
     var me = this;
 
-    div.load( 'pageparts/metaedit.html', function() {
+    div.load( 'pageparts/metaedit.html?'+ Math.random(), function() {
 
         // Show name only if creating new
         if ( !me.newModel_ ) {
