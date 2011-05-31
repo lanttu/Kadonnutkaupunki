@@ -180,7 +180,7 @@ function whoAmI(callback) {
 
 function showLogin() {
     var div = $( '<div></div>' ).appendTo( 'body' );
-    div.load( 'pageparts/login.html', function() {
+    div.load( 'pageparts/login.html?' + Math.random(), function() {
         div.dialog({
             title: 'Kirjaudu sisään',
             width: 370,
@@ -234,7 +234,7 @@ function showLogin() {
                         if(data == 'User account created! You can use this account to login now...') {
                             div.dialog('option', 'height', 200);
                             div.dialog('option', 'title', 'Kiitos!');
-                            div.load( 'pageparts/createuser_part2.html' );
+                            div.load( 'pageparts/createuser_part2.html?' + Math.random() );
                             
                         }
                         else {

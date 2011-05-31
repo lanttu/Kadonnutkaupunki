@@ -331,7 +331,6 @@ ModelCreator.prototype.editContent = function() {
                 },
                 function (data) {
                     me.closeDialog();
-                    menuManager.clearCreateNew();
                     // console.info(data);
                 }
             );
@@ -342,7 +341,10 @@ ModelCreator.prototype.editContent = function() {
             width: 800,
             // position: [this.get('x'), this.get('y')],
             title: me.model_.get( 'name' ),
-            dialogClass: me.model_.get( 'class' )
+            dialogClass: me.model_.get( 'class' ),
+            close: function() {
+                menuManager.clearCreateNew();
+            }
         });
     });
    
