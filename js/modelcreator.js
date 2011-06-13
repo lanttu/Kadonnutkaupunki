@@ -1,5 +1,5 @@
 function ModelCreator() {
-    this.div_ = $( '<div> ').appendTo ('body' );
+    this.div_ = $( "<div>" ).appendTo ( "body" );
     this.model_ = null;
     this.newModel_ = false;
 }
@@ -12,9 +12,9 @@ ModelCreator.prototype.createNew = function(model) {
 }
 
 ModelCreator.prototype.closeDialog = function() {
-    if ( this.div_.dialog( 'isOpen') ) {
-        this.div_.dialog( 'close' );
-        this.div_.dialog( 'destroy' );
+    if ( this.div_.dialog( "isOpen" ) ) {
+        this.div_.dialog( "close" );
+        this.div_.dialog( "destroy" );
     }
 }
 
@@ -25,7 +25,7 @@ ModelCreator.prototype.selectType = function() {
     var me = this;
     var selectedCategory = null;
 
-    div.load( 'pageparts/select_type.html', function() {
+    div.load( "pageparts/select_type.html", function() {
         var typeset = $( "#typeset" );
         // Create categories
         for ( var value in types ) {
@@ -37,9 +37,9 @@ ModelCreator.prototype.selectType = function() {
             $( "<br>" ).appendTo( typeset );
         }
         
-        $( '#submit-page', div ).button();
+        $( "#submit-page", div ).button();
 
-        $( '#submit-page', div ).click( function() {
+        $( "#submit-page", div ).click( function() {
             // console.info(me);
             selectedCategory = $( 'input[name="type"]:checked', div ).val();
             if ( selectedCategory ) {
@@ -51,7 +51,7 @@ ModelCreator.prototype.selectType = function() {
         div.dialog({
             height: 300,
             width: 400,
-            title: 'Valitse luotavan kohteen kategoria',
+            title: "Valitse luotavan kohteen kategoria",
             close: function() {
                 if ( selectedCategory === null ) {
                     me.cancel();
@@ -79,7 +79,7 @@ ModelCreator.prototype.pickPosition = function() {
     var me = this;
     var pickedPosition = null;
 
-    div.load('pageparts/click_map.html', function() {
+    div.load( "pageparts/click_map.html", function() {
         div.dialog({
             height: 100,
             width: 200,
@@ -93,7 +93,7 @@ ModelCreator.prototype.pickPosition = function() {
                 }
             }
         });
-        google.maps.event.addListenerOnce( map, 'click', function(e) {
+        google.maps.event.addListenerOnce( map, "click", function(e) {
             
             pickedPosition = e.latLng;
             me.model_.set( "position", pickedPosition );
@@ -106,55 +106,55 @@ ModelCreator.prototype.pickPosition = function() {
 ModelCreator.prototype.setMetadata = function() {
     this.closeDialog();
 
-    this.model_.set( 'state', 2 );
+    this.model_.set( "state", 2 );
 
-    var type = this.model_.get( 'type' );
-    var cls = this.model_.get( 'class' );
+    var type = this.model_.get( "type" );
+    var cls = this.model_.get( "class" );
     var finished = false;
     var iconRequired;
 
-    iconUrlPrefix = '/imgs/symbols/' + type + '/';
-    listIconsUrl = '/imgs/symbols/' + type + '/list.xml';
+    iconUrlPrefix = "/imgs/symbols/" + type + "/";
+    listIconsUrl = "/imgs/symbols/" + type + "/list.xml";
 
 
     var div = this.div_;
     var me = this;
 
-    div.load( 'pageparts/metaedit.html?'+ Math.random(), function() {
+    div.load( "pageparts/metaedit.html?"+ Math.random(), function() {
 
         // Show name only if creating new
         if ( !me.newModel_ ) {
-            $( '.name', this ).hide();
+            $( ".name", this ).hide();
         } else {
             // Check name availability
-            $( '#page-name' ).keyup($.debounce(function() {
+            $( "#page-name" ).keyup($.debounce(function() {
                 var pageName = $( this ).val();
-                if ( pageName != '' ) {
+                if ( pageName != "" ) {
                     $.ajax({
                         url: wikiUrl + pageName,
                         data:{},
                         success: function(data, status, request) {
-                            $( '#page-name-error', div )
-                                .html( 'Nimi on jo olemassa' );
-                            $( '#page-name', div ).addClass( 'error' );
-                            $( '#submit-edit', div )
-                                .button( 'option', 'disabled', true );
+                            $( "#page-name-error", div )
+                                .html( "Nimi on jo olemassa" );
+                            $( "#page-name", div ).addClass( "error" );
+                            $( "#submit-edit", div )
+                                .button( "option", "disabled", true );
                         },
                         error: function(request, status, error) {
                             if(request.status == 404) {
-                                $( '#page-name-error', div ).html( '' );
-                                $( '#page-name', div ).removeClass( 'error' );
-                                $( '#submit-edit', div )
-                                    .button( 'option', 'disabled', false );
+                                $( "#page-name-error", div ).html( "" );
+                                $( "#page-name", div ).removeClass( "error" );
+                                $( "#submit-edit", div )
+                                    .button( "option", "disabled", false );
                             }
                         }
                     });
                 }
                 else {
-                    $( '#submit-edit', div )
-                        .button( 'option', 'disabled', true );
-                    $( '#page-name', div ).addClass( 'error' );
-                    $( '#page-name-error', div ).html( 'Sivun nimi puuttuu' );
+                    $( "#submit-edit", div )
+                        .button( "option", "disabled", true );
+                    $( "#page-name", div ).addClass( "error" );
+                    $( "#page-name-error", div ).html( "Sivun nimi puuttuu" );
                 }
             }, 300));
         }
@@ -219,7 +219,7 @@ ModelCreator.prototype.setMetadata = function() {
         //     });
         // });
 
-        $( '#submit-edit', this ).click(function() {
+        $( "#submit-edit", this ).click(function() {
 
             // if( iconRequired 
             //     && $( '#icon', div ).attr( 'value' ) == 'undefined' ) {
@@ -229,12 +229,12 @@ ModelCreator.prototype.setMetadata = function() {
             // }
 
             if ( me.newModel_ ) {
-                if($( '#page-name', div ).val() == '' ) {
-                    $( '#page-name-error', div )
-                        .text( 'Tapahtumalla ei ole nimeä' );
+                if($( "#page-name", div ).val() == "" ) {
+                    $( "#page-name-error", div )
+                        .text( "Tapahtumalla ei ole nimeä" );
                     return false;
                 }
-                me.model_.set( 'name', $( '#page-name', div ).val() );
+                me.model_.set( "name", $( "#page-name", div ).val() );
             }
 
 
@@ -255,20 +255,17 @@ ModelCreator.prototype.setMetadata = function() {
             height: 400,
             width: 400,
             position: 'top',
-            // position: [this.get('x'), this.get('y')],
             title: type,
             close: function() {
-                // div.parents('.ui-dialog:eq(0)').unwrap(); // Remove wrapper, see below
 
                 if ( finished ) {
                     me.save( true );
-                    // me.editContent();
                 } else {
                     me.cancel();
                 }
 
             }
-        });//.parents('.ui-dialog:eq(0)').wrap('<div class="' + cls + '"/>');
+        });
         
     });
 
@@ -291,9 +288,9 @@ ModelCreator.prototype.editContent = function() {
     var me = this;
     var div = this.div_;
 
-    div.load( "pageparts/contentedit.html", function() {
+    div.load( "pageparts/contentedit.html?" + Math.random(), function() {
 
-        var textarea = $( "#content", div ).tinymce({
+        var textarea = $( "#content-editor", div ).tinymce({
             script_url : "tinymce/jscripts/tiny_mce/tiny_mce.js",
             theme: "advanced"
         });
@@ -318,7 +315,7 @@ ModelCreator.prototype.editContent = function() {
         $( "#language" ).hide();
 
         $( "#save", div ).click(function() {
-            var content = $( "#content", div ).val();
+            var content = $( "#content-editor", div ).val();
             var url = wikiUrl + me.model_.get( "name" ) + "/" + $("#language").val();
             // console.info( content );
             $.post(
