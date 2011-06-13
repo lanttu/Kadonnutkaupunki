@@ -44,6 +44,11 @@ function MapModel(page, func) {
                     gwikiManager.show( data.loadpage[i] );
                 }
             }
+            if ( data.showdialog ) {
+                for ( var i in data.showdialog ) {
+                    $.kkDialog( data.showdialog[i] );
+                }
+            }
 
             if ( func ) {
                 func.apply(me);

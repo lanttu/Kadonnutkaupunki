@@ -63,8 +63,6 @@ function Gwikimodel() {
         this.set( "typeConfig", typeConfig );
     });
 
-    // this.set('iconUrl', 'imgs/node_placer.png');
-    // this.set('hoverIconUrl', 'imgs/node_placer.png');
     this.set( "iconUrl", null );
     this.set( "hoverIconUrl", null );
 
@@ -88,6 +86,7 @@ Gwikimodel.prototype.init = function( state ) {
 
     google.maps.event.addListener(this, "state_changed", function(e) {
         var state = this.get('state');
+        // console.info(state);
         if ( this.dialog_ == null && state > 3 ) {
             this.createContentDialog();
         }
@@ -158,39 +157,17 @@ Gwikimodel.prototype.removeOverlays = function() {
 }
 
 Gwikimodel.prototype.createContentDialog = function() {
+    // console.info('createContentDialog');
     this.dialog_ = new ContentDialog(
-        this.get('title'), 
+        // this.get('title'), 
         this.get('name'),
         this.get('class')
     );
-    this.dialog_.bindTo('state', this);
-    this.dialog_.bindTo('position', this);
-}
-
-Gwikimodel.prototype.createDialog = function() {
-    // console.info('createDialog');
-
-    this.dialog_ = new ContentDialog();
     this.dialog_.bindTo('title', this);
-    this.dialog_.bindTo('name', this);
-    this.dialog_.bindTo('position', this);
-    this.dialog_.bindTo('type', this);
-    this.dialog_.bindTo('class', this);
-    // this.dialog_.bindTo('contentUrl', this);
-    this.dialog_.bindTo('contentEditUrl', this);
-    this.dialog_.bindTo('editState', this);
     this.dialog_.bindTo('state', this);
-
-    this.dialog_.bindTo('bounds', this);
-
-    this.dialog_.bindTo('icon', this);
-    this.dialog_.bindTo('iconUrl', this);
-
-    this.dialog_.bindTo('categories', this);
-
-    this.dialog_.init();
-    
+    this.dialog_.bindTo('position', this);
 }
+
 
 
 Gwikimodel.prototype.removeDialog = function() {

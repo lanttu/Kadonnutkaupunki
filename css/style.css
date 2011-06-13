@@ -87,10 +87,15 @@ input.error {
     font-weight: bold;
     margin-bottom: 2px;
     height: 28px;
+    opacity: 0.7;
+}
+
+#menu > ul {
+    margin-bottom: 1.5em;
 }
 
 #menu li.active {
-    background-color: #999999;
+    opacity: 1;
 }
 
 
@@ -111,7 +116,20 @@ input.error {
 }
 
 /* Content textarea editor */
-#content {
+textarea#content {
     width: 550px;
     height: 300px;
+}
+
+
+/* Loading overlay */
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent url("../imgs/ajax-loader.gif") no-repeat center center;
+    opacity: 0.5;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
 }

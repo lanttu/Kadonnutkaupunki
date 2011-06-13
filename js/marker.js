@@ -66,18 +66,6 @@ function Marker() {
             this.marker_.setMap( null );
         }
     });
-
-    // google.maps.event.addListener( this, "iconurl_changed", function() {
-    //     this.createIcon();
-    //     if ( this.marker_ ) {
-    //         this.marker_.setIcon( this.markerImage_ );
-    //     }
-    // });
-
-    // google.maps.event.addListener( this, "hovericonurl_changed", function() {
-    //     this.createHoverIcon();
-    // });
-
 }
 
 

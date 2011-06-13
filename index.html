@@ -30,11 +30,11 @@
     <script src="js/overlayhandler.js" type="text/javascript"></script>
     <script src="js/imageoverlay.js" type="text/javascript"></script>
     <script src="js/menumanager.js" type="text/javascript"></script>
-    <script src="js/dialogoverlay.js" type="text/javascript"></script>
     <script src="js/contentdialog.js" type="text/javascript"></script>
     <script src="js/modelcreator.js" type="text/javascript"></script>
     <script src="js/paths.js" type="text/javascript"></script>
     <script type="text/javascript" src="tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
+    <script src="js/kkdialog.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
     <script src="mapstyles/default.js" type="text/javascript"></script>
 
@@ -46,12 +46,19 @@
         <ul id="mainmenu">
             <li id="menu-login" data-clickaction="login">Kirjaudu sisään</li>
             <li id="menu-logout" data-clickaction="logout">Kirjaudu ulos</li>
-            <li id="menu-luouusi" data-clickaction="createNew" data-attr="marker">Luo uusi</li>
+            <li id="menu-luouusi" 
+                data-clickaction="createNew" 
+                data-attr="marker">
+                Luo uusi kohde kartalle
+            </li>
+            <li id="menu-ohjeet"
+                data-clickaction="openPage"
+                data-attr="Ruka-Kuusamo alueen metsien käytön kehittäminen">
+                Ohjeet
+            </li>
         </ul>
-        Merkit
         <ul id="types">
         </ul>
-        Reitit
         <ul id="path-types">
         </ul>
     </div>

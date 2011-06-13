@@ -6,12 +6,16 @@ function Paths() {
         var polylines = this.polylines_;
         var paths = this.get( "paths" );
         var color = this.getPathColor();
+        var opacity = this.getPathOpacity();
+        var weight = this.getPathWeight();
 
         paths.forEach( function( path ,i ) {
             var polyline = new google.maps.Polyline({
                 map: map,
                 path: path,
-                strokeColor: color
+                strokeColor: color,
+                strokeOpacity: opacity,
+                strokeWeight: weight
             });
             polylines.push( polyline );
         });
@@ -38,6 +42,24 @@ Paths.prototype.getPathColor = function() {
     } catch ( e ) {
         logMessage( "Config doesnt have color " );
         return "#FFFFFF";
+    }
+}
+
+Paths.prototype.getPathOpacity = function() {
+    var config = this.get( "typeConfig" );
+    if ( config.opacity !== undefined ) {
+        return config.opacity;
+    } else {
+        return 1.0;
+    }
+}
+
+Paths.prototype.getPathWeight = function() {
+    var config = this.get( "typeConfig" );
+    if ( config.weight !== undefined ) {
+        return config.weight;
+    } else {
+        return 2;
     }
 }
 

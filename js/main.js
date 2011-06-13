@@ -40,7 +40,7 @@ $(document).ready(function() {
             mapTypeControlOptions: {
                 mapTypeIds: [ "styled", google.maps.MapTypeId.SATELLITE]
             },
-            zoom: minZoom,
+            zoom: 11,
             disableDoubleClickZoom: true,
         });
         

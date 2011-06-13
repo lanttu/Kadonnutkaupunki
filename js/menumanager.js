@@ -26,6 +26,7 @@ function MenuManager() {
         }
         $( "<li>" ).attr( "data-clickaction", "toggletype" )
             .attr( "data-attr", type )
+            .css( "backgroundColor", types[type].color )
             .appendTo( typesElement )
             .text( types[type].plural );
     }
@@ -35,6 +36,7 @@ function MenuManager() {
     for ( var pathType in pathTypes ) {
         $( "<li>" ).attr( "data-clickaction", "toggletype" )
             .attr( "data-attr", pathType )
+            .css( "backgroundColor", pathTypes[pathType].color )
             .appendTo( pathTypesElement )
             .text( pathTypes[pathType].plural );
     }    
@@ -229,15 +231,20 @@ MenuManager.prototype.toggle = function(button, attr) {
 }
 
 MenuManager.prototype.openPage = function(button, attr) {
-    if($(button).hasClass('active')) {
+    if ( $(button).hasClass("active") ) {
         return;
     }
 
-    var url = wikiUrl+attr;
-    $(button).addClass('active');
-    openPage(url, null, function() {
-        $(button).removeClass('active');
-    }, attr, $(button).data('width'), $(button).data('height'), $(button).attr('data-dialogclass'));
+    // var url = wikiUrl + attr;
+    $( button ).addClass( "active" );
+    $.kkDialog( attr, {
+        width: $( button ).data( "width" ),
+        height: $( button ).data( "height" ),
+        cls: $( button ).data( "dialogclass" ),
+        close: function() {
+            $( button ).removeClass( "active" );
+        }
+    });
 }
 
 MenuManager.prototype.clearCreateNew = function() {
