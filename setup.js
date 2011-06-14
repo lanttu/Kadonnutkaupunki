@@ -83,5 +83,6 @@ var pathTypes = {
         opacity: 0.30,
         weight: 3,
         plural: "Alueen rajat",
+        active: true
     }
 }

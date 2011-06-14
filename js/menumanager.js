@@ -18,6 +18,8 @@ function MenuManager() {
         $(this).children('ul').hide();
     });
 
+    var activeOnLoad = [];
+
     // Type buttons
     var typesElement = $( "#types" );
     for ( var type in types ) {
@@ -49,7 +51,7 @@ function MenuManager() {
             .appendTo( pathTypesElement )
             .text( pathTypes[pathType].plural );
         if ( pathTypes[pathType].active ) {
-            li.click();
+            activeOnLoad.push(li);
         }
     }
 
@@ -79,6 +81,11 @@ function MenuManager() {
         }
         return false;
     });
+
+    for ( var i in activeOnLoad ) {
+
+        activeOnLoad[i].mouseover().click();
+    }
 
  
     // $('#zoom-in').click(function() {
