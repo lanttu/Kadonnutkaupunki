@@ -26,20 +26,42 @@ function MenuManager() {
         }
         $( "<li>" ).attr( "data-clickaction", "toggletype" )
             .attr( "data-attr", type )
-            .css( "backgroundColor", types[type].color )
+            // .css( "backgroundColor", types[type].color )
             .appendTo( typesElement )
             .text( types[type].plural );
     }
 
+    $( "li", typesElement ).mouseover(function() {
+        var type = $( this ).data( "attr" );
+        $( this ).css( "backgroundColor", types[type].color );
+    }).mouseout(function() {
+        if ( !$(this).hasClass("active") ) {
+            $( this ).css( "backgroundColor", "" );
+        }
+    });
+
     // Path type buttons
     var pathTypesElement = $( "#path-types" );
     for ( var pathType in pathTypes ) {
-        $( "<li>" ).attr( "data-clickaction", "toggletype" )
+        var li = $( "<li>" ).attr( "data-clickaction", "toggletype" )
             .attr( "data-attr", pathType )
-            .css( "backgroundColor", pathTypes[pathType].color )
+            // .css( "backgroundColor", pathTypes[pathType].color )
             .appendTo( pathTypesElement )
             .text( pathTypes[pathType].plural );
-    }    
+        if ( pathTypes[pathType].active ) {
+            li.click();
+        }
+    }
+
+    $( "li", pathTypesElement ).mouseover(function() {
+        var type = $( this ).data( "attr" );
+        $( this ).css( "backgroundColor", pathTypes[type].color );
+    }).mouseout(function() {
+        console.info("keke");
+        if ( !$(this).hasClass("active") ) {
+            $( this ).css( "backgroundColor", "" );
+        }
+    });
 
     this.mainmenuActions_ = $(this.menuDiv_).find('[data-clickaction]');
 

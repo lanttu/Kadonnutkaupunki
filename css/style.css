@@ -96,13 +96,14 @@ input.error {
 
 #menu li.active {
     opacity: 1;
+    color: white;
 }
 
 
 #menu li:hover {
     cursor: pointer;
-    background-color: black;
-    color: white;
+/*    background-color: black;
+    color: white;*/
 }
 
 #menu li > ul {
