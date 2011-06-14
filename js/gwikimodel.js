@@ -63,6 +63,13 @@ function Gwikimodel() {
         this.set( "typeConfig", typeConfig );
     });
 
+    google.maps.event.addListener(this, "name_changed", function() {
+        // Use name as default title
+        if ( !this.get("title") ) {
+            this.set( "title", this.get("name") );
+        }
+    });
+
     this.set( "iconUrl", null );
     this.set( "hoverIconUrl", null );
 
