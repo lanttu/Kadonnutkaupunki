@@ -78,6 +78,7 @@ input.error {
 }
 
 #menu li {
+    font-family: Helvetica;
     background-color: white;
     display: block;
     width: 150px;
@@ -88,6 +89,7 @@ input.error {
     margin-bottom: 2px;
     height: 28px;
     opacity: 0.7;
+    font-weight: bolder;
 }
 
 #menu > ul {
@@ -96,14 +98,16 @@ input.error {
 
 #menu li.active {
     opacity: 1;
+    background-color: #999;
     color: white;
+    text-shadow: black 0px 0px 5px;
+    /*-webkit-text-stroke: 1px #000;*/
 }
 
 
 #menu li:hover {
     cursor: pointer;
-/*    background-color: black;
-    color: white;*/
+    background-color: #AAA;
 }
 
 #menu li > ul {
