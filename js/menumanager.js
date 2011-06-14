@@ -59,7 +59,6 @@ function MenuManager() {
         var type = $( this ).data( "attr" );
         $( this ).css( "backgroundColor", pathTypes[type].color );
     }).mouseout(function() {
-        console.info("keke");
         if ( !$(this).hasClass("active") ) {
             $( this ).css( "backgroundColor", "" );
         }
