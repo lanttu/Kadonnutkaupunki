@@ -41,6 +41,8 @@ $(document).ready(function() {
                 mapTypeIds: [ "styled", google.maps.MapTypeId.SATELLITE]
             },
             zoom: 11,
+            maxZoom: maxZoom,
+            minZoom: minZoom,
             disableDoubleClickZoom: true,
         });
         
@@ -50,23 +52,23 @@ $(document).ready(function() {
                 
         menuManager = new MenuManager();
 
-        limitZoom(minZoom, maxZoom);
+        // limitZoom(minZoom, maxZoom);
 
         whoAmI();
 
     });
 });
 
-function limitZoom(min, max) {
-    google.maps.event.addListener(map, 'zoom_changed', function() {
-        if(map.getZoom() < min) {
-            map.setZoom(min);
-        }
-        else if(map.getZoom() > max) {
-            map.setZoom(max);
-        }
-    });
-}
+// function limitZoom(min, max) {
+//     google.maps.event.addListener(map, 'zoom_changed', function() {
+//         if(map.getZoom() < min) {
+//             map.setZoom(min);
+//         }
+//         else if(map.getZoom() > max) {
+//             map.setZoom(max);
+//         }
+//     });
+// }
 
 function openPage(url, onComplete, onClosed, title, width, height, cls) {
     if(!width)
