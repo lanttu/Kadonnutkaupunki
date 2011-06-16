@@ -15,14 +15,6 @@ body {
 .highlight {
     background-color: white;
 }
-#menu ul {
-    list-style-type: none;
-    margin: 4px;
-    padding: 0;
-    
-    text-align: center;
-    position: relative;
-}
 
 dl.form > dt {
     margin: 5px;
@@ -77,6 +69,19 @@ input.error {
     
 }
 
+#menu ul {
+    list-style-type: none;
+    margin: 4px;
+    padding: 0;
+    
+    text-align: center;
+    position: relative;
+}
+
+#menu > ul {
+    margin-bottom: 1.5em;
+}
+
 #menu li {
     font-family: Helvetica;
     background-color: white;
@@ -92,8 +97,8 @@ input.error {
     font-weight: bolder;
 }
 
-#menu > ul {
-    margin-bottom: 1.5em;
+#menu li.executing {
+    background: transparent url("../imgs/ajax-loader.gif") no-repeat center center;
 }
 
 #menu li.active {

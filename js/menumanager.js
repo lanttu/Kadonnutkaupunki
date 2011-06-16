@@ -235,13 +235,21 @@ MenuManager.prototype.logout = function(button, attr) {
 }
 
 MenuManager.prototype.toggletype = function(button, attr) {
-    if ( $(button).hasClass('active') ) {
-        gwikiManager.hideType( attr );
+    if( !$(button).hasClass("executing") ) {
+        $( button ).addClass( "executing" );
+
+        if ( $(button).hasClass('active') ) {
+            gwikiManager.hideType( attr, function() {
+                $(button).removeClass( "executing" );
+            });
+        }
+        else {
+            gwikiManager.showType( attr, function(){
+                $(button).removeClass( "executing" );
+            });
+        }
+        $(button).toggleClass( "active" );
     }
-    else {
-        gwikiManager.showType( attr );
-    }
-    $(button).toggleClass('active');
 }
 
 MenuManager.prototype.toggle = function(button, attr) {

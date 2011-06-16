@@ -165,9 +165,11 @@ GwikiManager.prototype.save = function(model, callback) {
 
 
 /* 
-    Loads given name(s) from server and calls callback for each 
+    Loads given name(s) from server and calls callback for each model
+    commonCallback is called only once
+
 */
-GwikiManager.prototype.load = function(names, callback) {
+GwikiManager.prototype.load = function(names, callback, commonCallback) {
     var data = {'action': 'getMetaJSON'};
     
     if(typeof(names) == 'string')
@@ -190,10 +192,13 @@ GwikiManager.prototype.load = function(names, callback) {
             if ( response[name].gwikidata 
                 && response[name].gwikidata[0] == 'yes') {
                 var m = me.create( name, response[name] );
-                if( $.isFunction(callback) ) {
+                if ( $.isFunction(callback) ) {
                     callback.apply(m);
                 }
             }
+        }
+        if ( $.isFunction(commonCallback) ) {
+            commonCallback();
         }
     });
 }
@@ -297,15 +302,18 @@ GwikiManager.prototype.show = function( name ) {
     });
 }
 
-GwikiManager.prototype.hideType = function( type ) {
+GwikiManager.prototype.hideType = function( type, callback ) {
     this.each(function() {
         if ( this.get( "type") == type ) {
             this.hide();
         }
     });
+    if ( $.isFunction(callback) ) {
+        callback();
+    }
 }
 
-GwikiManager.prototype.showType = function( type ) {
+GwikiManager.prototype.showType = function( type, callback ) {
     var typeConfig = getTypeConfig( type );
     if ( typeConfig.loaded ) {
         // Already loaded from server
@@ -314,12 +322,15 @@ GwikiManager.prototype.showType = function( type ) {
                 this.show();
             }
         });
+        if ( $.isFunction(callback) ) {
+            callback();
+        }
     } else {
         // Load from server and show
         typeConfig.loaded = true;
         this.load( "type=" + type, function() {
             this.show();
-        });
+        }, callback );
     }
 }
 

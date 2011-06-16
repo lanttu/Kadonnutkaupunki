@@ -35,7 +35,8 @@
 
             $.ajax({
                 url: encodeURI( wikiUrl + page ),
-                data: { mimetype: "html" },
+                // data: { mimetype: "html" },
+                data: { action: "getContent" },
                 success: function( data ) {
                     dialog.html( data );
                     // Links inside dialog
