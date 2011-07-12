@@ -21,6 +21,7 @@ def draw(request, course, raippauser, result="both"):
     except Exception, inst:
         exceptionargs = "".join(inst.args)
         reporterror(request, exceptionargs)
+        return exceptionargs
         return u'''
 <h2>An Error Has Occurred</h2>
 Error is reported to the admins. Please come back later.'''
@@ -189,7 +190,6 @@ def execute(macro, text):
         #check if user is quarantined
         if ruser.isQuarantined():
             html += u"You have been quarantined. You can't do tasks right now. Please come back later.<br>\n"
-
         #IE does not support base64 encoded images so we get it from drawgraphui action
         if 'MSIE' in request.getUserAgent():
             html += draw(request, course, ruser, result="map")

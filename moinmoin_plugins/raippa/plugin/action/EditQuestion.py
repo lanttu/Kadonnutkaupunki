@@ -890,6 +890,7 @@ def delete_question(request, pagename):
 def _enter_page(request, pagename):
     
     request.theme.send_title('Teacher Tools', formatted=False)
+    request.emit_http_headers(["Content-Type: text/html; charset=utf-8"])
     if not hasattr(request, 'formatter'):
         formatter = HtmlFormatter(request)
     else:

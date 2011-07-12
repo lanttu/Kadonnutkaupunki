@@ -478,6 +478,7 @@ def _enter_page(request, pagename):
     html_head='''<link rel="stylesheet" type="text/css" charset="utf-8"
     media="all" href="%s/raippa/css/calendar.css">
     ''' % (request.cfg.url_prefix_static))
+    request.emit_http_headers(["Content-Type: text/html; charset=utf-8"])
     if not hasattr(request, 'formatter'):
         formatter = HtmlFormatter(request)
     else:

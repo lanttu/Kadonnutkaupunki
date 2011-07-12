@@ -774,6 +774,7 @@ def _enter_page(request, pagename):
 ''' % (request.cfg.url_prefix_static,request.cfg.url_prefix_static)
 
     request.theme.send_title(u'Teacher Tools', formatted=False, html_head=head)
+    request.emit_http_headers(["Content-Type: text/html; charset=utf-8"])
     if not hasattr(request, 'formatter'):
         formatter = HtmlFormatter(request)
     else:
