@@ -18,6 +18,11 @@ ModelCreator.prototype.closeDialog = function() {
     }
 }
 
+ModelCreator.prototype.clearDialog = function() {
+    this.div_.dialog( "destroy" );
+    this.div_.html( "" );
+}
+
 ModelCreator.prototype.selectType = function() {
     this.closeDialog();
 
@@ -288,6 +293,19 @@ ModelCreator.prototype.editContent = function() {
     var me = this;
     var div = this.div_;
 
+    div.dialog({
+        height: 600,
+        width: 800,
+        // position: [this.get('x'), this.get('y')],
+        title: me.model_.get( 'name' ),
+        dialogClass: me.model_.get( 'class' ),
+        close: function() {
+            menuManager.clearCreateNew();
+            me.closeDialog();
+            me.clearDialog();
+        }
+    });
+
     div.load( "pageparts/contentedit.html?" + Math.random(), function() {
 
         var textarea = $( "#content-editor", div ).tinymce({
@@ -327,22 +345,12 @@ ModelCreator.prototype.editContent = function() {
                     format: 'wiki'
                 },
                 function (data) {
-                    me.closeDialog();
+                    div.dialog( "close" );
                     // console.info(data);
                 }
             );
         });
-        
-        div.dialog({
-            height: 600,
-            width: 800,
-            // position: [this.get('x'), this.get('y')],
-            title: me.model_.get( 'name' ),
-            dialogClass: me.model_.get( 'class' ),
-            close: function() {
-                menuManager.clearCreateNew();
-            }
-        });
+    
     });
    
 }

@@ -16,6 +16,7 @@ def execute(pagename, request):
     # return
 
     if len(metas['gwikidata']) > 0 and metas['gwikidata'][0] == 'yes':
+        # Content is in subpage
 
         language = request.form.get('language', [None])[0]
         if not language:
@@ -35,7 +36,11 @@ def execute(pagename, request):
             ).match
             subpageNames = request.rootpage.getPageList(user='', exists=1, filter=filterFn)
 
+        if (len(subpageNames) == 0):
+            subpageNames = [u'NoContent']
+
         contentPage = Page(request, subpageNames[0])
+        
     else:
         contentPage = Page(request, pagename)
     request.write(contentPage.send_page(content_only=True))
